@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+
+# workaround for dzil
+package list_org_headlines;
+# ABSTRACT: A utility to list headlines in Org files
+
+use 5.010;
+use strict;
+use warnings;
+
+use Sub::Spec::CmdLine qw(run);
+
+run(module => 'App::ListOrgHeadlines', sub=>'list_org_headlines');
+
+__END__
+
+=head1 SYNOPSIS
+
+ # list all headlines in all Org files
+ $ list-org-headlines ~/*.org
+
+ # instead of only listing its title, list details about each headline
+ $ list-org-headlines --detail FILES ...
+
+ # list all todo items in all Org files
+ $ list-org-headlines --todo FILES ...
+
+ # list headlines that are not todo items in all Org files
+ $ list-org-headlines --notodo FILES ...
+
+ # list up to level 2 only
+ $ list-org-headlines --tolevel 2 FILES ...
+
+ # list *only* level 3
+ $ list-org-headlines --from-level 3 --to-level 3 FILES ...
+
+
+=head1 DESCRIPTION
+
+This is a simple application to list headlines in Org files, first created as a
+demo for L<Org::Parser>.
+
+
+=head1 SEE ALSO
+
+L<list-org-todos>
+
+=cut
