@@ -159,3 +159,10 @@ sub list_org_headlines {
 }
 
 1;
+__END__
+
+=head1 FUNCTIONS
+
+None are exported, but they are exportable.
+
+=cut
