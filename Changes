@@ -6,7 +6,7 @@ Revision history for App-OrgUtils
 
         * Move script from Org::Parser: dump-org-structure.
 
-        * Add scripts: list-org-anniversaries, list-org-birthdays.
+        * Add scripts: list-org-anniversaries.
 
 
 0.01    2011-06-06
