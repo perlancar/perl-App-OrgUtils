@@ -1,4 +1,9 @@
-Revision history for App-ListOrgHeadlines
+Revision history for App-OrgUtils
+
+0.02    2011-06-09
+
+        Rename distribution from App-ListOrgHeadlines to App-OrgUtils.
+
 
 0.01    2011-06-06
 

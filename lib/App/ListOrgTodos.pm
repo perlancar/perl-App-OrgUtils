@@ -1,5 +1,5 @@
 package App::ListOrgTodos;
-#ABSTRACT: An application to list todo items in Org files
+#ABSTRACT: List todo items in Org files
 
 use 5.010;
 use strict;
@@ -32,6 +32,17 @@ sub list_org_todos {
 
 1;
 __END__
+
+=head1 SYNOPSIS
+
+ # show todo items that are due today
+ $ list-org-todos --due-in 0 ~/organizer/*.org
+
+
+=head1 DESCRIPTION
+
+list-org-todos is just list-org-headlines with todo => 1.
+
 
 =head1 FUNCTIONS
 

@@ -1,5 +1,5 @@
 package App::ListOrgHeadlines;
-#ABSTRACT: An application to list headlines in Org files
+#ABSTRACT: List headlines in Org files
 
 use 5.010;
 use strict;
@@ -160,6 +160,15 @@ sub list_org_headlines {
 
 1;
 __END__
+
+=head1 SYNOPSIS
+
+ # list all level-1 and level-2 headlines
+ $ list-org-headlines --from_level=1 --to-level=2 ~/*.org
+
+ # same as above, but only list todo items, and show details
+ $ list-org-headlines --from-level 1 --to-level 2 --todo --detail ~/*.org
+
 
 =head1 FUNCTIONS
 
