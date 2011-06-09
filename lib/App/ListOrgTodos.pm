@@ -35,13 +35,10 @@ __END__
 
 =head1 SYNOPSIS
 
- # show todo items that are due today
- $ list-org-todos --due-in 0 ~/organizer/*.org
+ # See list-org-todos script
 
 
 =head1 DESCRIPTION
-
-list-org-todos is just list-org-headlines with todo => 1.
 
 
 =head1 FUNCTIONS

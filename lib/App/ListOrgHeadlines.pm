@@ -163,11 +163,10 @@ __END__
 
 =head1 SYNOPSIS
 
- # list all level-1 and level-2 headlines
- $ list-org-headlines --from_level=1 --to-level=2 ~/*.org
+ # See list-org-headlines script
 
- # same as above, but only list todo items, and show details
- $ list-org-headlines --from-level 1 --to-level 2 --todo --detail ~/*.org
+
+=head1 DESCRIPTION
 
 
 =head1 FUNCTIONS
