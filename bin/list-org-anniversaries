@@ -58,6 +58,6 @@ See L<App::ListOrgAnniversaries> for details on expected , including available o
 
 L<Org::Parser>
 
-B<org-contacts>
+B<org-contacts>, http://julien.danjou.info/org-contacts.html
 
 =cut
