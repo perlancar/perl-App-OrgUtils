@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+# workaround for dzil
+package list_org_anniversaries;
+# ABSTRACT: List anniversaries in Org files
+
+use 5.010;
+use strict;
+use warnings;
+
+use Sub::Spec::CmdLine qw(run);
+
+run(module => 'App::ListOrgAnniversaries', sub=>'list_org_anniversaries');
+
+__END__
+
+=head1 SYNOPSIS
+
+ # list all anniversaries
+ $ list-org-anniversaries ~/addressbook.org
+
+ # only show friends' birthdays due in 1 week and not past 1 week overdue
+ $ list-org-anniversaries --field-pattern 'birthday' --has-tags '[friend]' \
+     --due-in 7 --max-overdue 7 ~/contacts-*.org
+
+
+=head1 DESCRIPTION
+
+This script
+
+See L<App::ListOrgAnniversaries> for details on expected , including available options.
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+B<org-contacts>
+
+=cut

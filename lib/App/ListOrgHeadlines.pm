@@ -34,7 +34,7 @@ sub _process_hl {
             $hl->todo_state eq $args->{state};
     }
     if ($args->{has_tags} || $args->{lack_tags}) {
-        my $tags = $hl->get_tags;
+        my $tags = [$hl->get_tags];
         if ($args->{has_tags}) {
             for (@{ $args->{has_tags} }) {
                 return unless $_ ~~ @$tags;
