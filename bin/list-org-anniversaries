@@ -51,7 +51,7 @@ and assuming today is 2011-07-01, the script will print something like:
 
 This script
 
-See L<App::ListOrgAnniversaries> for details on expected , including available options.
+See L<App::ListOrgAnniversaries> for more details, including available options.
 
 
 =head1 SEE ALSO
