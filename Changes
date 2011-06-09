@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.03    2011-06-09
+
+        No functional changes
+
+        * Fixes in POD and packaging, add sample outputs in Synopsis.
+
+
 0.02    2011-06-09
 
         * Rename distribution from App-ListOrgHeadlines to App-OrgUtils.
