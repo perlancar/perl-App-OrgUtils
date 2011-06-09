@@ -136,12 +136,10 @@ ignored).
 
 By convention, if year is '1900' it is assumed to mean year is not specified.
 
-By default, anniversaries that are due in 2 weeks or overdue not longer than 2
-days are displayed. This can be changed using 'due_in' and 'max_overdue'
-options.
-
 By default, all contacts' anniversaries will be listed. You can filter contacts
-using tags ('has_tags' and 'lack_tags' options).
+using tags ('has_tags' and 'lack_tags' options), or by 'due_in' and
+'max_overdue' options (due_in=14 and max_overdue=2 is what I commonly use in my
+startup script).
 
 _
     args    => {
