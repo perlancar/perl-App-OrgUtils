@@ -1,14 +1,15 @@
 * Andi Angkasa
-- email      :: budi@example.com
-- birthday   :: <1981-03-31 >
+- email      :: andi@example.com
+- birthday   :: [1981-03-31 ]
 * B
 ** Budi Bagus              :friend:
 - email      :: budi@example.com
-- birthday   :: <1900-04-07 >
+- birthday   :: [1900-04-07 ]
 * C
 ** Cinta Cemara            :spouse:friend:
 :PROPERTIES:
 :EMAIL: cinta@example.com
-:BIRTHDAY: 1979-09-20
+:CELL: 0812-345-6789
+:BIRTHDAY: 1900-06-30
 :WEDDING_ANNIVERSARY: 2010-07-04
 :END:

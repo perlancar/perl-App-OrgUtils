@@ -23,7 +23,25 @@ __END__
  $ list-org-anniversaries --field-pattern 'birthday' --has-tags '[friend]' \
      --due-in 7 --max-overdue 7 --nopretty ~/contacts-*.org
 
-prints something like:
+With an Org contacts file like this:
+
+ * Andi Angkasa
+ - email      :: andi@example.com
+ - birthday   :: [1981-07-05 ]
+ * B
+ ** Budi Bagus              :friend:
+ - email      :: budi@example.com
+ - birthday   :: [1900-04-07 ]
+ * C
+ ** Cinta Cemara            :spouse:friend:
+ :PROPERTIES:
+ :EMAIL: cinta@example.com
+ :CELL: 0812-345-6789
+ :BIRTHDAY: 1900-06-30
+ :WEDDING_ANNIVERSARY: 2010-07-04
+ :END:
+
+and assuming today is 2011-07-01, the script will print something like:
 
  in 3 days: 1st WEDDING_ANNIVERSARY of Cinta Cemara (2010-07-04 - 2011-07-04)
  1 day ago: birthday of Cinta Cemara (2010-06-30)
