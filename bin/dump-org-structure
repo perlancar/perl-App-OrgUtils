@@ -1,9 +1,8 @@
 #!/usr/bin/perl
 
-# a simple example script to dump org structure
-
 # workaround for dzil
 package dump_org_structure;
+# ABSTRACT: Dump Org document structure
 
 use 5.010;
 use strict;
@@ -22,3 +21,21 @@ close ARGV; # so perl doesn't add ", <> line xx" upon dying
 
 my $doc = Org::Parser->new->parse($input);
 print Org::Dump::dump_element($doc);
+
+=head1 SYNOPSIS
+
+ $ dump-org-structure   foo.org
+ $ dump-org-structure < bar.org
+
+
+=head1 DESCRIPTION
+
+This script parse input using L<Org::Parser> and dump the structure in an
+outline format. This script is mostly used for debugging.
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+=cut

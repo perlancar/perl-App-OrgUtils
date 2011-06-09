@@ -2,7 +2,7 @@
 
 # workaround for dzil
 package list_org_todos;
-# ABSTRACT: A utility to list todo items in Org files
+# ABSTRACT: List todo items in Org files
 
 use 5.010;
 use strict;
@@ -34,12 +34,10 @@ __END__
 This is a simple application to list todo items in Org files, first created as a
 demo for L<Org::Parser>.
 
-This script is previously named I<remind-due-todos>.
-
 
 =head1 SEE ALSO
 
-L<list-org-headlines>, a slightly more general version. This script is basically
+B<list-org-headlines>, a slightly more general version. This script is basically
 equivalent to "list-org-headlines --todo ...".
 
 =cut

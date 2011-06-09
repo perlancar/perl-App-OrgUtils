@@ -2,7 +2,7 @@
 
 # workaround for dzil
 package list_org_headlines;
-# ABSTRACT: A utility to list headlines in Org files
+# ABSTRACT: List headlines in Org files
 
 use 5.010;
 use strict;
@@ -43,6 +43,6 @@ demo for L<Org::Parser>.
 
 =head1 SEE ALSO
 
-L<list-org-todos>
+B<list-org-todos>
 
 =cut
