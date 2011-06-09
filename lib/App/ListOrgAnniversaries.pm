@@ -47,7 +47,8 @@ sub _process_hl {
 
             if ($el->isa('Org::Element::Timestamp')) {
                 my $field = $el->field_name;
-                next unless defined($field) && $field =~ $args->{field_pattern};
+                return unless defined($field) &&
+                    $field =~ $args->{field_pattern};
                 push @annivs, [$field, $el->datetime];
                 return;
             }
