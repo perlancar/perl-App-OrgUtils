@@ -27,6 +27,33 @@ print Org::Dump::dump_element($doc);
  $ dump-org-structure   foo.org
  $ dump-org-structure < bar.org
 
+Given an Org document like this:
+
+ * Andi Angkasa
+ - email      :: andi@example.com
+ - birthday   :: [1981-03-31 ]
+
+will output something like:
+
+ Document:
+   Headline: l=1
+     (title)
+     Text: "Andi Angkasa"
+     (children)
+     List: D(-) indent=0
+       ListItem: -
+         (description term)
+         Text: "email"
+         (children)
+         Text: " andi@example.com\n"
+       ListItem: -
+         (description term)
+         Text: "birthday"
+         (children)
+         Text: " "
+         Timestamp: dt=1981-03-31T00:00:00 "[1981-03-31 Tue]"
+         Text: "\n"
+
 
 =head1 DESCRIPTION
 
