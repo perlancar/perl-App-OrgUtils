@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.04    2011-06-15
+
+        [BUG FIXES]
+
+        * dump-org-structure: fix utf8 reading
+
+
 0.03    2011-06-09
 
         No functional changes
