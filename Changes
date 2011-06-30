@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.05    2011-06-30
+
+        [ENHANCEMENTS]
+
+        * list-org-todos: now obeys warning period in timestamps
+
+
 0.04    2011-06-15
 
         [BUG FIXES]
