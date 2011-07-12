@@ -1,5 +1,4 @@
 package App::ListOrgTodos;
-#ABSTRACT: List todo items in Org files
 
 use 5.010;
 use strict;
@@ -14,6 +13,8 @@ use Org::Parser;
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(list_org_todos);
+
+# VERSION
 
 our %SPEC;
 
@@ -31,6 +32,7 @@ sub list_org_todos {
 }
 
 1;
+#ABSTRACT: List todo items in Org files
 __END__
 
 =head1 SYNOPSIS

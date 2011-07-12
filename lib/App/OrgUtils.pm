@@ -1,11 +1,13 @@
 package App::OrgUtils;
-#ABSTRACT: Some utilities for Org documents
 
 use 5.010;
 use strict;
 use warnings;
 
+# VERSION
+
 1;
+#ABSTRACT: Some utilities for Org documents
 __END__
 
 =head1 DESCRIPTION
