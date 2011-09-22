@@ -163,6 +163,14 @@ _
         priority => [str => {
             summary => 'Filter todo items that have this priority',
         }],
+        time_zone => [str => {
+            summary => 'Will be passed to parser\'s options',
+            description => <<'_',
+
+If not set, TZ environment variable will be picked as default.
+
+_
+        }],
     },
 };
 sub list_org_headlines {
@@ -179,7 +187,8 @@ sub list_org_headlines {
 
     for my $file (@$files) {
         $log->debug("Parsing $file ...");
-        my $doc = $orgp->parse_file($file);
+        my $opts = {time_zone => $args{time_zone} // $ENV{TZ}};
+        my $doc = $orgp->parse_file($file, $opts);
         $doc->walk(
             sub {
                 my ($el) = @_;
