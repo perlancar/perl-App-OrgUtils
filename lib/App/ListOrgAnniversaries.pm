@@ -21,7 +21,7 @@ my $today;
 my $yest;
 
 sub _process_hl {
-    my ($file, $hl, $args, $res) = @_;
+    my ($file, $hl, $args, $res, $opts) = @_;
 
     return unless $hl->is_leaf;
 
@@ -64,7 +64,8 @@ sub _process_hl {
                         next;
                     }
                     push @annivs,
-                        [$k, DateTime->new(year=>$1, month=>$2, day=>$3)];
+                        [$k, DateTime->new(year=>$1, month=>$2, day=>$3,
+                                       time_zone=>$opts->{time_zone})];
                     return;
                 }
             }
@@ -181,6 +182,8 @@ _
 sub list_org_anniversaries {
     my %args = @_;
 
+    my $tz = $args{time_zone} // $ENV{TZ};
+
     # XXX schema
     my $files = $args{files};
     return [400, "Please specify files"] if !$files || !@$files;
@@ -188,7 +191,7 @@ sub list_org_anniversaries {
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
 
-    $today = DateTime->today;
+    $today = DateTime->today(time_zone => $tz);
     $yest  = $today->clone->add(days => -1);
 
     my $orgp = Org::Parser->new;
@@ -196,13 +199,13 @@ sub list_org_anniversaries {
 
     for my $file (@$files) {
         $log->debug("Parsing $file ...");
-        my $opts = {time_zone => $args{time_zone} // $ENV{TZ}};
+        my $opts = {time_zone => $tz};
         my $doc = $orgp->parse_file($file, $opts);
         $doc->walk(
             sub {
                 my ($el) = @_;
                 return unless $el->isa('Org::Element::Headline');
-                _process_hl($file, $el, \%args, \@res)
+                _process_hl($file, $el, \%args, \@res, $opts)
             });
     } # for $file
 

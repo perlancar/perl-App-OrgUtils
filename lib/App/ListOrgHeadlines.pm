@@ -20,7 +20,7 @@ my $today;
 my $yest;
 
 sub _process_hl {
-    my ($file, $hl, $args, $res) = @_;
+    my ($file, $hl, $args, $res, $opts) = @_;
 
     return if $args->{from_level} && $hl->level < $args->{from_level};
     return if $args->{to_level}   && $hl->level > $args->{to_level};
@@ -176,10 +176,12 @@ _
 sub list_org_headlines {
     my %args = @_;
 
+    my $tz = $args{time_zone} // $ENV{TZ};
+
     my $files = $args{files};
     return [400, "Please specify files"] if !$files || !@$files;
 
-    $today = DateTime->today;
+    $today = DateTime->today(time_zone => $tz);
     $yest  = $today->clone->add(days => -1);
 
     my $orgp = Org::Parser->new;
@@ -187,13 +189,13 @@ sub list_org_headlines {
 
     for my $file (@$files) {
         $log->debug("Parsing $file ...");
-        my $opts = {time_zone => $args{time_zone} // $ENV{TZ}};
+        my $opts = {time_zone => $tz};
         my $doc = $orgp->parse_file($file, $opts);
         $doc->walk(
             sub {
                 my ($el) = @_;
                 return unless $el->isa('Org::Element::Headline');
-                _process_hl($file, $el, \%args, \@res)
+                _process_hl($file, $el, \%args, \@res, $opts)
             });
     } # for $file
 
