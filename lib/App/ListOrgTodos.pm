@@ -21,12 +21,12 @@ our %SPEC;
 my $spec = clone($App::ListOrgHeadlines::SPEC{list_org_headlines});
 $spec->{summary} = "List all todo items in all Org files";
 delete $spec->{args}{todo};
-#$spec->{args}{due_in}[1]{default} = 0;
+$spec->{args}{done}[1]{default} = 0;
 
 $SPEC{list_org_todos} = $spec;
 sub list_org_todos {
     my %args = @_;
-    #$args{due_in} //= 0;
+    $args{done} //= 0;
 
     App::ListOrgHeadlines::list_org_headlines(%args, todo=>1);
 }
