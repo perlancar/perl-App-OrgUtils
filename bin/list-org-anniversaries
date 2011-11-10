@@ -2,17 +2,19 @@
 
 # workaround for dzil
 package list_org_anniversaries;
-# ABSTRACT: List anniversaries in Org files
 
 use 5.010;
 use strict;
 use warnings;
 
+# VERSION
+
 use Sub::Spec::CmdLine qw(run);
 
 run(module => 'App::ListOrgAnniversaries', sub=>'list_org_anniversaries');
 
-__END__
+1;
+# ABSTRACT: List anniversaries in Org files
 
 =head1 SYNOPSIS
 

@@ -2,7 +2,6 @@
 
 # workaround for dzil
 package list_org_headlines;
-# ABSTRACT: List headlines in Org files
 
 use 5.010;
 use strict;
@@ -10,9 +9,12 @@ use warnings;
 
 use Sub::Spec::CmdLine qw(run);
 
+# VERSION
+
 run(module => 'App::ListOrgHeadlines', sub=>'list_org_headlines');
 
-__END__
+1;
+# ABSTRACT: List headlines in Org files
 
 =head1 SYNOPSIS
 

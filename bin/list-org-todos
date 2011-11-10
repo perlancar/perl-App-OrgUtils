@@ -2,7 +2,6 @@
 
 # workaround for dzil
 package list_org_todos;
-# ABSTRACT: List todo items in Org files
 
 use 5.010;
 use strict;
@@ -10,9 +9,12 @@ use warnings;
 
 use Sub::Spec::CmdLine qw(run);
 
+# VERSION
+
 run(module => 'App::ListOrgTodos', sub=>'list_org_todos');
 
-__END__
+1;
+# ABSTRACT: List todo items in Org files
 
 =head1 SYNOPSIS
 
