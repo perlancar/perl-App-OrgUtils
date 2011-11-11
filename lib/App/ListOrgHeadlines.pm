@@ -176,7 +176,7 @@ _
 sub list_org_headlines {
     my %args = @_;
 
-    my $tz = $args{time_zone} // $ENV{TZ};
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
 
     my $files = $args{files};
     return [400, "Please specify files"] if !$files || !@$files;

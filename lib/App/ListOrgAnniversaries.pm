@@ -182,7 +182,7 @@ _
 sub list_org_anniversaries {
     my %args = @_;
 
-    my $tz = $args{time_zone} // $ENV{TZ};
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
 
     # XXX schema
     my $files = $args{files};
