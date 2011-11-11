@@ -1,5 +1,13 @@
 Revision history for App-OrgUtils
 
+0.09    2011-11-11
+
+        [BUG FIXES]
+
+        * DateTime croaks if we supply time_zone => undef, so we always provide
+          a default (UTC) when $ENV{TZ} is not set.
+
+
 0.08    2011-11-10
 
         [BUG FIXES]
