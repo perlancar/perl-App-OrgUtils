@@ -107,7 +107,7 @@ sub _process_hl {
                 $hl->title->as_string,
                 $hide_age ? $d->ymd : $date->ymd . " - " . $d->ymd);
             $log->debugf("Added this anniversary to result: %s", $msg);
-            push @$res, $msg;
+            push @$res, [$msg, $d];
             last DATE;
         }
     } # for @annivs
@@ -177,10 +177,28 @@ If not set, TZ environment variable will be picked as default.
 
 _
         }],
+        sort => [any => {
+            of => [
+                ['str*' => {in=>['due_date', '-due_date']}],
+                'code*'
+            ],
+            default => 'due_date',
+            summary => 'Specify sorting',
+            description => <<'_',
+
+If string, must be one of 'date', '-date' (descending).
+
+If code, sorting code will get [REC, DUE_DATE] as the items to compare, where
+REC is the final record that will be returned as final result (can be a string
+or a hash, if 'detail' is enabled), and DUE_DATE is the DateTime object.
+
+_
+        }],
    },
 };
 sub list_org_anniversaries {
     my %args = @_;
+    my $sort = $args{sort} // 'due_date';
 
     my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
 
@@ -209,7 +227,24 @@ sub list_org_anniversaries {
             });
     } # for $file
 
-    [200, "OK", \@res];
+    if ($sort) {
+        if (ref($sort) eq 'CODE') {
+            @res = sort $sort @res;
+        } elsif ($sort =~ /^-?due_date$/) {
+            @res = sort {
+                my $dt1 = $a->[1];
+                my $dt2 = $b->[1];
+                my $comp = DateTime->compare($dt1, $dt2);
+                ($sort =~ /^-/ ? -1 : 1) * $comp;
+            } @res;
+        } else {
+            # XXX should die here because when Sah is ready, invalid values have
+            # been filtered
+            return [400, "Invalid sort argument"];
+        }
+    }
+
+    [200, "OK", [map {$_->[0]} @res]];
 }
 
 1;
