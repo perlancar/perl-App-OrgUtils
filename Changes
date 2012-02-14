@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.10    2012-02-14
+
+        [ENHANCEMENTS]
+
+        * Add 'sort' argument.
+
+
 0.09    2011-11-11
 
         [BUG FIXES]
