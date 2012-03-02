@@ -7,11 +7,11 @@ use 5.010;
 use strict;
 use warnings;
 
-use Sub::Spec::CmdLine qw(run);
+use Perinci::CmdLine;
 
 # VERSION
 
-run(module => 'App::ListOrgTodos', sub=>'list_org_todos');
+Perinci::CmdLine->new(url => '/App/ListOrgTodos/list_org_todos')->run;
 
 1;
 # ABSTRACT: List todo items in Org files

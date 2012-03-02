@@ -7,11 +7,11 @@ use 5.010;
 use strict;
 use warnings;
 
-use Sub::Spec::CmdLine qw(run);
+use Perinci::CmdLine;
 
 # VERSION
 
-run(module => 'App::ListOrgHeadlines', sub=>'list_org_headlines');
+Perinci::CmdLine->new(url=>'/App/ListOrgHeadlines/list_org_headlines')->run;
 
 1;
 # ABSTRACT: List headlines in Org files

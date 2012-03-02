@@ -9,9 +9,10 @@ use warnings;
 
 # VERSION
 
-use Sub::Spec::CmdLine qw(run);
+use Perinci::CmdLine;
 
-run(module => 'App::ListOrgAnniversaries', sub=>'list_org_anniversaries');
+Perinci::CmdLine->new(
+    url => '/App/ListOrgAnniversaries/list_org_anniversaries')->run;
 
 1;
 # ABSTRACT: List anniversaries in Org files
