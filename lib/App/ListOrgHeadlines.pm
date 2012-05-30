@@ -6,6 +6,7 @@ use warnings;
 use Log::Any qw($log);
 
 use DateTime;
+use List::MoreUtils qw(uniq);
 use Org::Parser;
 
 require Exporter;
@@ -167,6 +168,17 @@ _
                 'lack-tags' => {},
             },
         }],
+        group_by_tags => [bool => {
+            summary => 'Whether to group result by tags',
+            default => 0,
+            description => <<'_',
+
+If set to true, instead of returning a list, this function will return a hash of
+lists, keyed by tag: {tag1: [hl1, hl2, ...], tag2: [...]}. Note that some
+headlines might be listed more than once if it has several tags.
+
+_
+        }],
         priority => [str => {
             summary => 'Filter todo items that have this priority',
         }],
@@ -251,7 +263,28 @@ sub list_org_headlines {
         }
     }
 
-    [200, "OK", [map {$_->[0]} @res]];
+    my $res;
+    if ($args{group_by_tags}) {
+        # cache tags in each @res element's [3] element
+        for (@res) { $_->[3] = [$_->[2]->get_tags] }
+        my @tags = sort uniq map {@{$_->[3]}} @res;
+        $res = {};
+        for my $tag ('', @tags) {
+            $res->{$tag} = [];
+            for (@res) {
+                if ($tag eq '') {
+                    next if @{$_->[3]};
+                } else {
+                    next unless $tag ~~ @{$_->[3]};
+                }
+                push @{ $res->{$tag} }, $_->[0];
+            }
+        }
+    } else {
+        $res = [map {$_->[0]} @res];
+    }
+
+    [200, "OK", $res];
 }
 
 1;
