@@ -162,6 +162,9 @@ _
         }],
         lacks_tags => [array => {
             summary => 'Filter headlines that don\'t have the specified tags',
+            arg_aliases => {
+                lack_tags => {},
+            },
         }],
         priority => [str => {
             summary => 'Filter todo items that have this priority',
