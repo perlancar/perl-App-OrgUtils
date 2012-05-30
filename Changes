@@ -1,5 +1,17 @@
 Revision history for App-OrgUtils
 
+0.12    2012-05-30
+
+        [INCOMPATIBLE CHANGES]
+
+        - Change 'lack_tags' argument to 'lacks_tag' (English consistency with
+          'has_tags')
+
+        [ENHANCEMENTS]
+
+        - Add 'group_by_tags' option.
+
+
 0.11    2012-03-02
 
         No functional changes. Replace Sub::Spec::CmdLine with Perinci::CmdLine.
