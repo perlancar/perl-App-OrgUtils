@@ -27,15 +27,15 @@ sub _process_hl {
 
     $log->tracef("Processing %s ...", $hl->title->as_string);
 
-    if ($args->{has_tags} || $args->{lack_tags}) {
+    if ($args->{has_tags} || $args->{lacks_tags}) {
         my $tags = [$hl->get_tags];
         if ($args->{has_tags}) {
             for (@{ $args->{has_tags} }) {
                 return unless $_ ~~ @$tags;
             }
         }
-        if ($args->{lack_tags}) {
-            for (@{ $args->{lack_tags} }) {
+        if ($args->{lacks_tags}) {
+            for (@{ $args->{lacks_tags} }) {
                 return if $_ ~~ @$tags;
             }
         }
@@ -140,7 +140,7 @@ ignored).
 By convention, if year is '1900' it is assumed to mean year is not specified.
 
 By default, all contacts' anniversaries will be listed. You can filter contacts
-using tags ('has_tags' and 'lack_tags' options), or by 'due_in' and
+using tags ('has_tags' and 'lacks_tags' options), or by 'due_in' and
 'max_overdue' options (due_in=14 and max_overdue=2 is what I commonly use in my
 startup script).
 
@@ -158,7 +158,7 @@ _
         has_tags => [array => {
             summary => 'Filter headlines that have the specified tags',
         }],
-        lack_tags => [array => {
+        lacks_tags => [array => {
             summary => 'Filter headlines that don\'t have the specified tags',
         }],
         due_in => [int => {

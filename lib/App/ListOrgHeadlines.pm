@@ -34,15 +34,15 @@ sub _process_hl {
         return unless $hl->is_todo &&
             $hl->todo_state eq $args->{state};
     }
-    if ($args->{has_tags} || $args->{lack_tags}) {
+    if ($args->{has_tags} || $args->{lacks_tags}) {
         my $tags = [$hl->get_tags];
         if ($args->{has_tags}) {
             for (@{ $args->{has_tags} }) {
                 return unless $_ ~~ @$tags;
             }
         }
-        if ($args->{lack_tags}) {
-            for (@{ $args->{lack_tags} }) {
+        if ($args->{lacks_tags}) {
+            for (@{ $args->{lacks_tags} }) {
                 return if $_ ~~ @$tags;
             }
         }
@@ -160,7 +160,7 @@ _
         has_tags => [array => {
             summary => 'Filter headlines that have the specified tags',
         }],
-        lack_tags => [array => {
+        lacks_tags => [array => {
             summary => 'Filter headlines that don\'t have the specified tags',
         }],
         priority => [str => {
