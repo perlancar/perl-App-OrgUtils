@@ -6,7 +6,6 @@ use warnings;
 use open qw(:std :utf8);
 use Log::Any qw($log);
 
-use String::Escape qw(elide printable);
 use Org::Parser;
 use Org::Dump;
 
