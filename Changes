@@ -1,5 +1,10 @@
 Revision history for App-OrgUtils
 
+0.13    2012-06-13
+
+        No functional changes. Properly name the POD of scripts [RT#77794].
+
+
 0.12    2012-05-30
 
         [INCOMPATIBLE CHANGES]
