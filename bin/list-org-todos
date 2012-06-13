@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-# workaround for dzil
-package list_org_todos;
-
 use 5.010;
 use strict;
 use warnings;
@@ -15,6 +12,7 @@ Perinci::CmdLine->new(url => '/App/ListOrgTodos/list_org_todos')->run;
 
 1;
 # ABSTRACT: List todo items in Org files
+# PODNAME: list-org-todos
 
 =head1 SYNOPSIS
 

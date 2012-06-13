@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-# workaround for dzil
-package list_org_anniversaries;
-
 use 5.010;
 use strict;
 use warnings;
@@ -16,6 +13,7 @@ Perinci::CmdLine->new(
 
 1;
 # ABSTRACT: List anniversaries in Org files
+# PODNAME: list-org-anniversaries
 
 =head1 SYNOPSIS
 
