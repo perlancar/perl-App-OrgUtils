@@ -1,11 +1,11 @@
 Revision history for App-OrgUtils
 
-0.13    2012-06-13
+0.13    2012-06-13 (SHARYANTO)
 
         No functional changes. Properly name the POD of scripts [RT#77794].
 
 
-0.12    2012-05-30
+0.12    2012-05-30 (SHARYANTO)
 
         [INCOMPATIBLE CHANGES]
 
@@ -17,19 +17,19 @@ Revision history for App-OrgUtils
         - Add 'group_by_tags' option.
 
 
-0.11    2012-03-02
+0.11    2012-03-02 (SHARYANTO)
 
         No functional changes. Replace Sub::Spec::CmdLine with Perinci::CmdLine.
 
 
-0.10    2012-02-14
+0.10    2012-02-14 (SHARYANTO)
 
         [ENHANCEMENTS]
 
         * Add 'sort' argument.
 
 
-0.09    2011-11-11
+0.09    2011-11-11 (SHARYANTO)
 
         [BUG FIXES]
 
@@ -37,47 +37,47 @@ Revision history for App-OrgUtils
           a default (UTC) when $ENV{TZ} is not set.
 
 
-0.08    2011-11-10
+0.08    2011-11-10 (SHARYANTO)
 
         [BUG FIXES]
 
         * By default don't show done todos
 
 
-0.07    2011-09-23
+0.07    2011-09-23 (SHARYANTO)
 
         [ENHANCEMENTS]
 
         * Support time zones
 
 
-0.06    2011-09-23
+0.06    2011-09-23 (SHARYANTO)
 
         * Fix bug related to time zone
 
 
-0.05    2011-06-30
+0.05    2011-06-30 (SHARYANTO)
 
         [ENHANCEMENTS]
 
         * list-org-todos: now obeys warning period in timestamps
 
 
-0.04    2011-06-15
+0.04    2011-06-15 (SHARYANTO)
 
         [BUG FIXES]
 
         * dump-org-structure: fix utf8 reading
 
 
-0.03    2011-06-09
+0.03    2011-06-09 (SHARYANTO)
 
         No functional changes
 
         * Fixes in POD and packaging, add sample outputs in Synopsis.
 
 
-0.02    2011-06-09
+0.02    2011-06-09 (SHARYANTO)
 
         * Rename distribution from App-ListOrgHeadlines to App-OrgUtils.
 
@@ -86,6 +86,6 @@ Revision history for App-OrgUtils
         * Add scripts: list-org-anniversaries.
 
 
-0.01    2011-06-06
+0.01    2011-06-06 (SHARYANTO)
 
         First release, spun off from Org::Parser's sample script.
