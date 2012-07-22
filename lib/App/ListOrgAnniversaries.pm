@@ -5,9 +5,11 @@ use strict;
 use warnings;
 use Log::Any qw($log);
 
+use Cwd qw(abs_path);
 use DateTime;
+use Digest::MD5 qw(md5_hex);
 use Lingua::EN::Numbers::Ordinate;
-use Org::Parser;
+use App::OrgUtils;
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -21,7 +23,7 @@ my $today;
 my $yest;
 
 sub _process_hl {
-    my ($file, $hl, $args, $res, $opts) = @_;
+    my ($file, $hl, $args, $res, $tz) = @_;
 
     return unless $hl->is_leaf;
 
@@ -65,7 +67,7 @@ sub _process_hl {
                     }
                     push @annivs,
                         [$k, DateTime->new(year=>$1, month=>$2, day=>$3,
-                                       time_zone=>$opts->{time_zone})];
+                                       time_zone=>$tz)];
                     return;
                 }
             }
@@ -151,6 +153,15 @@ _
             arg_pos    => 0,
             arg_greedy => 1,
         }],
+        cache_dir => ['str*' => {
+            summary => 'Cache Org parse result',
+            description => <<'_',
+
+Since Org::Parser can spend some time to parse largish Org files, this is an
+option to store the parse result. Caching is turned on if this argument is set.
+
+_
+        }],
         field_pattern => [str => {
             summary => 'Field regex that specifies anniversaries',
             default => '(?:birthday|anniversary)'
@@ -219,17 +230,17 @@ sub list_org_anniversaries {
     my $orgp = Org::Parser->new;
     my @res;
 
-    for my $file (@$files) {
-        $log->debug("Parsing $file ...");
-        my $opts = {time_zone => $tz};
-        my $doc = $orgp->parse_file($file, $opts);
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        $files, $args{cache_dir}, {time_zone=>$tz});
+    for my $file (keys %docs) {
+        my $doc = $docs{$file};
         $doc->walk(
             sub {
                 my ($el) = @_;
                 return unless $el->isa('Org::Element::Headline');
-                _process_hl($file, $el, \%args, \@res, $opts)
+                _process_hl($file, $el, \%args, \@res, $tz);
             });
-    } # for $file
+    }
 
     if ($sort) {
         if (ref($sort) eq 'CODE') {

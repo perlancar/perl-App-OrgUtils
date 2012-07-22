@@ -7,8 +7,6 @@ use Log::Any qw($log);
 
 use App::ListOrgHeadlines qw(list_org_headlines);
 use Data::Clone;
-use DateTime;
-use Org::Parser;
 
 require Exporter;
 our @ISA       = qw(Exporter);

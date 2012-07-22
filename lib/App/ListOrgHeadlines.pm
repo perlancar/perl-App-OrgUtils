@@ -5,9 +5,11 @@ use strict;
 use warnings;
 use Log::Any qw($log);
 
+use App::OrgUtils;
+use Cwd qw(abs_path);
 use DateTime;
+use Digest::MD5 qw(md5_hex);
 use List::MoreUtils qw(uniq);
-use Org::Parser;
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -21,7 +23,7 @@ my $today;
 my $yest;
 
 sub _process_hl {
-    my ($file, $hl, $args, $res, $opts) = @_;
+    my ($file, $hl, $args, $res) = @_;
 
     return if $args->{from_level} && $hl->level < $args->{from_level};
     return if $args->{to_level}   && $hl->level > $args->{to_level};
@@ -125,6 +127,15 @@ $SPEC{list_org_headlines} = {
             arg_pos    => 0,
             arg_greedy => 1,
         }],
+        cache_dir => ['str*' => {
+            summary => 'Cache Org parse result',
+            description => <<'_',
+
+Since Org::Parser can spend some time to parse largish Org files, this is an
+option to store the parse result. Caching is turned on if this argument is set.
+
+_
+        }],
         todo => [bool => {
             summary => 'Filter headlines that are todos',
             default => 0,
@@ -222,20 +233,19 @@ sub list_org_headlines {
     $today = DateTime->today(time_zone => $tz);
     $yest  = $today->clone->add(days => -1);
 
-    my $orgp = Org::Parser->new;
     my @res;
 
-    for my $file (@$files) {
-        $log->debug("Parsing $file ...");
-        my $opts = {time_zone => $tz};
-        my $doc = $orgp->parse_file($file, $opts);
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        $files, $args{cache_dir}, {time_zone=>$tz});
+    for my $file (keys %docs) {
+        my $doc = $docs{$file};
         $doc->walk(
             sub {
                 my ($el) = @_;
                 return unless $el->isa('Org::Element::Headline');
-                _process_hl($file, $el, \%args, \@res, $opts)
+                _process_hl($file, $el, \%args, \@res)
             });
-    } # for $file
+    }
 
     if ($sort) {
         if (ref($sort) eq 'CODE') {
