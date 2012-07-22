@@ -192,6 +192,16 @@ If not set, TZ environment variable will be picked as default.
 
 _
         }],
+        today => [any => {
+            of => ['int', [obj => {isa=>'DateTime'}]],
+            summary => 'Assume today\'s date',
+            description => <<'_',
+
+You can provide Unix timestamp or DateTime object. If you provide a DateTime
+object, remember to set the correct time zone.
+
+_
+        }],
         sort => [any => {
             of => [
                 ['str*' => {in=>['due_date', '-due_date']}],
@@ -224,7 +234,15 @@ sub list_org_anniversaries {
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
 
-    $today = DateTime->today(time_zone => $tz);
+    if ($args{today}) {
+        if (ref($args{today})) {
+            $today = $args{today};
+        } else {
+            $today = DateTime->from_epoch(epoch=>$args{today}, time_zone=>$tz);
+        }
+    } else {
+        $today = DateTime->today(time_zone => $tz);
+    }
     $yest  = $today->clone->add(days => -1);
 
     my $orgp = Org::Parser->new;
