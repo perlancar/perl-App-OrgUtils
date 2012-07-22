@@ -1,5 +1,14 @@
 Revision history for App-OrgUtils
 
+0.14    2012-07-22 (SHARYANTO)
+
+        [ENHANCEMENTS]
+
+        - Add 'today' option.
+
+        - Add 'cache_dir' option.
+
+
 0.13    2012-06-13 (SHARYANTO)
 
         No functional changes. Properly name the POD of scripts [RT#77794].
