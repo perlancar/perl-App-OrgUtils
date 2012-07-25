@@ -8,6 +8,7 @@ use warnings;
 
 use Perinci::CmdLine;
 
+binmode STDOUT, ":utf8";
 Perinci::CmdLine->new(
     url => '/App/ListOrgAnniversaries/list_org_anniversaries')->run;
 

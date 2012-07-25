@@ -8,6 +8,7 @@ use Perinci::CmdLine;
 
 # VERSION
 
+binmode STDOUT, ":utf8";
 Perinci::CmdLine->new(url=>'/App/ListOrgHeadlines/list_org_headlines')->run;
 
 1;
