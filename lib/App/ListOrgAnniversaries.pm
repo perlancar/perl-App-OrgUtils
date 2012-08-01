@@ -5,11 +5,12 @@ use strict;
 use warnings;
 use Log::Any qw($log);
 
+use App::OrgUtils;
 use Cwd qw(abs_path);
 use DateTime;
 use Digest::MD5 qw(md5_hex);
 use Lingua::EN::Numbers::Ordinate;
-use App::OrgUtils;
+use Scalar::Util qw(reftype);
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -261,7 +262,7 @@ sub list_org_anniversaries {
     }
 
     if ($sort) {
-        if (ref($sort) eq 'CODE') {
+        if (reftype($sort) eq 'CODE') {
             @res = sort $sort @res;
         } elsif ($sort =~ /^-?due_date$/) {
             @res = sort {
