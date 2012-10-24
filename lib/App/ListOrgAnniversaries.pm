@@ -172,10 +172,6 @@ _
         }],
         lacks_tags => [array => {
             summary => 'Filter headlines that don\'t have the specified tags',
-            arg_aliases => {
-                lack_tags => {},
-                'lack-tags' => {},
-            },
         }],
         due_in => [int => {
             summary => 'Only show anniversaries that are due '.

@@ -175,10 +175,6 @@ _
         }],
         lacks_tags => [array => {
             summary => 'Filter headlines that don\'t have the specified tags',
-            arg_aliases => {
-                lack_tags => {},
-                'lack-tags' => {},
-            },
         }],
         group_by_tags => [bool => {
             summary => 'Whether to group result by tags',
