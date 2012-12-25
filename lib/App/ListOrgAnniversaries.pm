@@ -274,7 +274,8 @@ sub list_org_anniversaries {
         }
     }
 
-    [200, "OK", [map {$_->[0]} @res]];
+    [200, "OK", [map {$_->[0]} @res],
+     {result_format_opts=>{list_max_columns=>1}}];
 }
 
 1;
