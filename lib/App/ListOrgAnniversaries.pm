@@ -190,7 +190,8 @@ If not set, TZ environment variable will be picked as default.
 _
         }],
         today => [any => {
-            of => ['int', [obj => {isa=>'DateTime'}]],
+            # disable temporarily due to Data::Sah broken - 2012-12-25
+            #of => ['int', [obj => {isa=>'DateTime'}]],
             summary => 'Assume today\'s date',
             description => <<'_',
 
@@ -200,10 +201,11 @@ object, remember to set the correct time zone.
 _
         }],
         sort => [any => {
-            of => [
-                ['str*' => {in=>['due_date', '-due_date']}],
-                'code*'
-            ],
+            # disable temporarily due to Data::Sah broken - 2012-12-25
+            #of => [
+            #    ['str*' => {in=>['due_date', '-due_date']}],
+            #    'code*'
+            #],
             default => 'due_date',
             summary => 'Specify sorting',
             description => <<'_',
@@ -258,7 +260,7 @@ sub list_org_anniversaries {
     }
 
     if ($sort) {
-        if (reftype($sort) eq 'CODE') {
+        if ((reftype($sort)//'') eq 'CODE') {
             @res = sort $sort @res;
         } elsif ($sort =~ /^-?due_date$/) {
             @res = sort {
