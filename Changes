@@ -1,5 +1,14 @@
 Revision history for App-OrgUtils
 
+0.16    2013-01-09 (SHARYANTO)
+
+        [ENHANCEMENTS]
+
+        - list-org-headlines: Allow due_in to be undef, which will use warning
+          period, or 14 days. So todo items with warning period of 1 day, for
+          example, won't show up too early.
+
+
 0.15    2012-07-25 (SHARYANTO)
 
         Fix outputing Unicode text when format=text [RT #78490].
@@ -9,9 +18,9 @@ Revision history for App-OrgUtils
 
         [ENHANCEMENTS]
 
-        - Add 'today' option.
+        - list-org-headlines: Add 'today' option.
 
-        - Add 'cache_dir' option.
+        - list-org-headlines: Add 'cache_dir' option.
 
 
 0.13    2012-06-13 (SHARYANTO)
