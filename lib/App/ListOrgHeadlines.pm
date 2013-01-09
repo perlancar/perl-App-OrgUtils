@@ -60,9 +60,12 @@ sub _process_hl {
     my $days;
     $days = int(($ats->datetime->epoch - $today->epoch)/86400)
         if $ats;
-    if (defined $args->{due_in}) {
+    if (exists $args->{due_in}) {
         return unless $ats;
-        my $met = $days <= $args->{due_in};
+        my $met;
+        if (defined $args->{due_in}) {
+            $met = $days <= $args->{due_in};
+        }
         if (!$met && $ats->_warning_period) {
             # try the warning period
             my $dt = $ats->datetime->clone;
@@ -84,6 +87,10 @@ sub _process_hl {
                 return;
             }
             $met++ if DateTime->compare($dt, $today) <= 0;
+        }
+        if (!$met && !$ats->_warning_period && !defined($args->{due_in})) {
+            # try the default 14 days
+            $met = $days <= 14;
         }
         return unless $met;
     }
@@ -121,14 +128,17 @@ sub _process_hl {
 }
 
 $SPEC{list_org_headlines} = {
+    v       => 1.1,
     summary => 'List all headlines in all Org files',
     args    => {
-        files => ['array*' => {
-            of         => 'str*',
-            arg_pos    => 0,
-            arg_greedy => 1,
-        }],
-        cache_dir => ['str*' => {
+        files => {
+            schema => ['array*' => of => 'str*'],
+            req    => 1,
+            pos    => 0,
+            greedy => 1,
+        },
+        cache_dir => {
+            schema => ['str*'],
             summary => 'Cache Org parse result',
             description => <<'_',
 
@@ -136,49 +146,69 @@ Since Org::Parser can spend some time to parse largish Org files, this is an
 option to store the parse result. Caching is turned on if this argument is set.
 
 _
-        }],
-        todo => [bool => {
-            summary => 'Filter headlines that are todos',
-            default => 0,
-        }],
-        done => [bool => {
-            summary => 'Filter todo items that are done',
-        }],
-        due_in => [int => {
-            summary => 'Filter todo items which is due in this number of days',
+        },
+        todo => {
+            schema => ['bool'],
+            summary => 'Only show headlines that are todos',
+            tags => ['filter'],
+        },
+        done => {
+            schema  => ['bool'],
+            summary => 'Only show todo items that are done',
+            tags => ['filter'],
+        },
+        due_in => {
+            schema => ['int'],
+            summary => 'Only show todo items that are (nearing|passed) due',
             description => <<'_',
 
-Note that if the todo's due date has warning period and the warning period is
-active, then it will also pass this filter irregardless. Example, if today is
-2011-06-30 and due_in is set to 7, then todo with due date <2011-07-10 > won't
-pass the filter but <2011-07-10 Sun +1y -14d> will (warning period 14 days is
-already active by that time).
+If value is not set, then will use todo item's warning period (or, if todo item
+does not have due date or warning period in its due date, will use the default
+14 days).
+
+If value is set to something smaller than the warning period, the todo item will
+still be considered nearing due when the warning period is passed. For example,
+if today is 2011-06-30 and due_in is set to 7, then todo item with due date
+<2011-07-10 > won't pass the filter (it's still 10 days in the future, larger
+than 7) but <2011-07-10 Sun +1y -14d> will (warning period 14 days is already
+passed by that time).
 
 _
-        }],
-        from_level => [int => {
-            summary => 'Filter headlines having this level as the minimum',
-            default => 1,
-        }],
-        to_level => [int => {
-            summary => 'Filter headlines having this level as the maximum',
-        }],
-        state => [str => {
-            summary => 'Filter todo items that have this state',
-        }],
-        detail => [bool => {
+            tags => ['filter'],
+        },
+        from_level => {
+            schema => [int => default => 1],
+            summary => 'Only show headlines having this level as the minimum',
+            tags => ['filter'],
+        },
+        to_level => {
+            schema => ['int'],
+            summary => 'Only show headlines having this level as the maximum',
+            tags => ['filter'],
+        },
+        state => {
+            schema => ['str'],
+            summary => 'Only show todo items that have this state',
+            tags => ['filter'],
+        },
+        detail => {
+            schema => [bool => default => 0],
             summary => 'Show details instead of just titles',
-            default => 0,
-        }],
-        has_tags => [array => {
-            summary => 'Filter headlines that have the specified tags',
-        }],
-        lacks_tags => [array => {
-            summary => 'Filter headlines that don\'t have the specified tags',
-        }],
-        group_by_tags => [bool => {
+            tags => ['format'],
+        },
+        has_tags => {
+            schema => ['array'],
+            summary => 'Only show headlines that have the specified tags',
+            tags => ['filter'],
+        },
+        lacks_tags => {
+            schema => ['array'],
+            summary=> 'Only show headlines that don\'t have the specified tags',
+            tags => ['filter'],
+        },
+        group_by_tags => {
+            schema => [bool => default => 0],
             summary => 'Whether to group result by tags',
-            default => 0,
             description => <<'_',
 
 If set to true, instead of returning a list, this function will return a hash of
@@ -186,21 +216,27 @@ lists, keyed by tag: {tag1: [hl1, hl2, ...], tag2: [...]}. Note that some
 headlines might be listed more than once if it has several tags.
 
 _
-        }],
-        priority => [str => {
-            summary => 'Filter todo items that have this priority',
-        }],
-        time_zone => [str => {
+            tags => ['format'],
+        },
+        priority => {
+            schema => ['str'],
+            summary => 'Only show todo items that have this priority',
+            tags => ['filter'],
+        },
+        time_zone => {
+            schema => ['str'],
             summary => 'Will be passed to parser\'s options',
             description => <<'_',
 
 If not set, TZ environment variable will be picked as default.
 
 _
-        }],
-        today => [any => {
-            # disable temporarily due to Data::Sah broken - 2012-12-25
-            #of => ['int', [obj => {isa=>'DateTime'}]],
+        },
+        today => {
+            schema => ['any' => {
+                # disable temporarily due to Data::Sah broken - 2012-12-25
+                #of => ['int', [obj => {isa=>'DateTime'}]],
+            }],
             summary => 'Assume today\'s date',
             description => <<'_',
 
@@ -208,14 +244,16 @@ You can provide Unix timestamp or DateTime object. If you provide a DateTime
 object, remember to set the correct time zone.
 
 _
-        }],
-        sort => [any => {
-            # disable temporarily due to Data::Sah broken - 2012-12-25
-            #of => [
-            #    ['str*' => {in=>['due_date', '-due_date']}],
-            #    'code*'
-            #],
-            default => 'due_date',
+        },
+        sort => {
+            schema => [any => {
+                # disable temporarily due to Data::Sah broken - 2012-12-25
+                #of => [
+                #    ['str*' => {in=>['due_date', '-due_date']}],
+                #    'code*'
+                #],
+                default => 'due_date',
+            }],
             summary => 'Specify sorting',
             description => <<'_',
 
@@ -227,7 +265,8 @@ string or a hash, if 'detail' is enabled), DUE_DATE is the DateTime object (if
 any), and HL is the Org::Headline object.
 
 _
-        }],
+            tags => ['format'],
+        },
     },
 };
 sub list_org_headlines {

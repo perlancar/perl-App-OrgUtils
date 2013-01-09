@@ -19,8 +19,8 @@ our %SPEC;
 my $spec = clone($App::ListOrgHeadlines::SPEC{list_org_headlines});
 $spec->{summary} = "List all todo items in all Org files";
 delete $spec->{args}{todo};
-$spec->{args}{done}[1]{default} = 0;
-$spec->{args}{sort}[1]{default} = 'due_date';
+$spec->{args}{done}{schema}[1]{default} = 0;
+$spec->{args}{sort}{schema}[1]{default} = 'due_date';
 
 $SPEC{list_org_todos} = $spec;
 sub list_org_todos {
