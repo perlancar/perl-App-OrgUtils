@@ -350,7 +350,10 @@ sub list_org_headlines {
         $res = [map {$_->[0]} @res];
     }
 
-    [200, "OK", $res, {result_format_options=>{list_max_columns=>1}}];
+    [200, "OK", $res, {result_format_options=>{
+        "text"        => {list_max_columns=>1},
+        "text-pretty" => {list_max_columns=>1},
+    }}];
 }
 
 1;
