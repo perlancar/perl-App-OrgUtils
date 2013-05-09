@@ -19,26 +19,32 @@ my $n = 0;
 $doc->walk(
     sub {
         my $el = shift;
-        $n++ if $el->isa('Org::Element::Headline') && $el->is_done;
+        $n++ if $el->isa('Org::Element::Headline') && $el->is_todo;
     });
 
 say $n;
 
-# ABSTRACT: Count todo headlines which are done in Org document
-# PODNAME: count-org-done-todo-headlines
+# ABSTRACT: Count todos in Org document
+# PODNAME: count-org-todos
 
 =head1 SYNOPSIS
 
- % count-org-done-todo-headlines todo.org
- 59
+ % count-org-todos todo.org
+ 101
+
+which is equivalent to:
+
+ % list-org-todos todo.org | wc -l
 
 
 =head1 SEE ALSO
 
 L<Org::Parser>
 
-L<count-org-undone-todo-headlines>
+L<count-done-org-todos>
 
-L<count-org-todo-headlines>
+L<count-undone-org-todos>
+
+L<list-org-todos>
 
 =cut

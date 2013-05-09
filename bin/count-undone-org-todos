@@ -25,12 +25,12 @@ $doc->walk(
 
 say $n;
 
-# ABSTRACT: Count todo headlines which are undone in Org document
-# PODNAME: count-org-undone-todo-headlines
+# ABSTRACT: Count todos which are undone in Org document
+# PODNAME: count-undone-org-todos
 
 =head1 SYNOPSIS
 
- % count-org-undone-todo-headlines todo.org
+ % count-undone-org-todos todo.org
  42
 
 
@@ -38,8 +38,8 @@ say $n;
 
 L<Org::Parser>
 
-L<count-org-done-todo-headlines>
+L<count-done-org-todos>
 
-L<count-org-todo-headlines>
+L<count-org-todos>
 
 =cut
