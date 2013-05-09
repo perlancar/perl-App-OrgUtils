@@ -32,6 +32,10 @@ say $n;
  % count-done-org-todos todo.org
  59
 
+which is equivalent to:
+
+ % list-org-todos --done todo.org | wc -l
+
 
 =head1 SEE ALSO
 
@@ -40,5 +44,7 @@ L<Org::Parser>
 L<count-undone-org-todos>
 
 L<count-org-todos>
+
+L<list-org-todos>
 
 =cut
