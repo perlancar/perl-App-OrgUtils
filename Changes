@@ -1,5 +1,10 @@
 Revision history for App-OrgUtils
 
+0.17    2013-05-09 (SHARYANTO)
+
+        - Add scripts: count-{org,undone-org,done-org}-todos
+
+
 0.16    2013-01-09 (SHARYANTO)
 
         [ENHANCEMENTS]
