@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Org::Parser;
+
+# VERSION
+
+my $org = Org::Parser->new;
+my $doc;
+{
+    local $/;
+    $doc = $org->parse(~~<>);
+}
+
+my $n = 0;
+$doc->walk(
+    sub {
+        my $el = shift;
+        $n++ if $el->isa('Org::Element::Headline') && $el->is_todo;
+    });
+
+say $n;
+
+# ABSTRACT: Count todo headlines in Org document
+# PODNAME: count-org-todo-headlines
+
+=head1 SYNOPSIS
+
+ % count-org-todo-headlines todo.org
+ 101
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+L<count-org-done-todo-headlines>
+
+L<count-org-undone-todo-headlines>
+
+=cut

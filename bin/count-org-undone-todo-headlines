@@ -1,0 +1,45 @@
+#!/usr/bin/perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Org::Parser;
+
+# VERSION
+
+my $org = Org::Parser->new;
+my $doc;
+{
+    local $/;
+    $doc = $org->parse(~~<>);
+}
+
+my $n = 0;
+$doc->walk(
+    sub {
+        my $el = shift;
+        $n++ if $el->isa('Org::Element::Headline') &&
+            $el->is_todo && !$el->is_done;
+    });
+
+say $n;
+
+# ABSTRACT: Count todo headlines which are undone in Org document
+# PODNAME: count-org-undone-todo-headlines
+
+=head1 SYNOPSIS
+
+ % count-org-undone-todo-headlines todo.org
+ 42
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+L<count-org-done-todo-headlines>
+
+L<count-org-todo-headlines>
+
+=cut
