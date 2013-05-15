@@ -29,8 +29,8 @@ print Org::Dump::dump_element($doc);
 Given an Org document like this:
 
  * Andi Angkasa
- - email      :: andi@example.com
- - birthday   :: [1981-03-31 ]
+ - email :: andi@example.com
+ - birthday :: [1981-03-31 ]
 
 will output something like:
 
