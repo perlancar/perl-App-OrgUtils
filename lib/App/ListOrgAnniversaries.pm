@@ -101,10 +101,11 @@ sub _process_hl {
             my $pl = abs($days) > 1 ? "s" : "";
             my $hide_age = $date->year == 1900;
             my $msg = sprintf(
-                "%s: %s of %s (%s)",
+                "%s (%s): %s of %s (%s)",
                 $days == 0 ? "today" :
                     $days < 0 ? abs($days)." day$pl ago" :
                         "in $days day$pl",
+                $d->strftime("%a"),
                 $hide_age ? $field :
                     ordinate($d->year - $date->year)." $field",
                 $hl->title->as_string,

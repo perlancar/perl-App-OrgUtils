@@ -113,10 +113,11 @@ sub _process_hl {
     } else {
         if ($ats) {
             my $pl = abs($days) > 1 ? "s" : "";
-            $r = sprintf("%s: %s (%s)",
+            $r = sprintf("%s (%s): %s (%s)",
                          $days == 0 ? "today" :
                              $days < 0 ? abs($days)." day$pl ago" :
                                  "in $days day$pl",
+                         $ats->datetime->strftime("%a"),
                          $hl->title->as_string,
                          $ats->datetime->ymd);
             $date = $ats->datetime;
