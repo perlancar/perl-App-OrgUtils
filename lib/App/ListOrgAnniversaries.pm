@@ -122,19 +122,19 @@ $SPEC{list_org_anniversaries} = {
     description => <<'_',
 This function expects contacts in the following format:
 
- * First last                              :office:friend:
-   :PROPERTIES:
-   :BIRTHDAY:     1900-06-07
-   :EMAIL:        foo@example.com
-   :OTHERFIELD:   ...
-   :END:
+    * First last                              :office:friend:
+      :PROPERTIES:
+      :BIRTHDAY:     1900-06-07
+      :EMAIL:        foo@example.com
+      :OTHERFIELD:   ...
+      :END:
 
 or:
 
- * Some name                               :office:
-   - birthday   :: [1900-06-07 ]
-   - email      :: foo@example.com
-   - otherfield :: ...
+    * Some name                               :office:
+      - birthday   :: [1900-06-07 ]
+      - email      :: foo@example.com
+      - otherfield :: ...
 
 Using PROPERTIES, dates currently must be specified in "YYYY-MM-DD" format.
 Other format will be supported in the future. Using description list, dates can
@@ -283,7 +283,6 @@ sub list_org_anniversaries {
 
 1;
 #ABSTRACT: List headlines in Org files
-__END__
 
 =head1 SYNOPSIS
 
