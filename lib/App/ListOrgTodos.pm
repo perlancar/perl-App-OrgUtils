@@ -32,7 +32,6 @@ sub list_org_todos {
 
 1;
 #ABSTRACT: List todo items in Org files
-__END__
 
 =head1 SYNOPSIS
 

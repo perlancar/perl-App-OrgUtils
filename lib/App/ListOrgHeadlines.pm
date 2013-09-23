@@ -359,7 +359,6 @@ sub list_org_headlines {
 
 1;
 #ABSTRACT: List headlines in Org files
-__END__
 
 =head1 SYNOPSIS
 

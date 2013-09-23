@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.18    2013-09-23 (SHARYANTO)
+
+        - Fix examples in Synopsis.
+
+        - Show day of week name after X days ago/again.
+
+
 0.17    2013-05-09 (SHARYANTO)
 
         - Add scripts: count-{org,undone-org,done-org}-todos
