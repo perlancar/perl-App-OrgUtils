@@ -23,7 +23,7 @@ Revision history for App-OrgUtils
 
 0.15    2012-07-25 (SHARYANTO)
 
-        Fix outputing Unicode text when format=text [RT #78490].
+        - Fix outputing Unicode text when format=text [RT #78490].
 
 
 0.14    2012-07-22 (SHARYANTO)
@@ -54,21 +54,22 @@ Revision history for App-OrgUtils
 
 0.11    2012-03-02 (SHARYANTO)
 
-        No functional changes. Replace Sub::Spec::CmdLine with Perinci::CmdLine.
+        - No functional changes. Replace Sub::Spec::CmdLine with
+          Perinci::CmdLine.
 
 
 0.10    2012-02-14 (SHARYANTO)
 
         [ENHANCEMENTS]
 
-        * Add 'sort' argument.
+        - Add 'sort' argument.
 
 
 0.09    2011-11-11 (SHARYANTO)
 
         [BUG FIXES]
 
-        * DateTime croaks if we supply time_zone => undef, so we always provide
+        - DateTime croaks if we supply time_zone => undef, so we always provide
           a default (UTC) when $ENV{TZ} is not set.
 
 
@@ -76,51 +77,50 @@ Revision history for App-OrgUtils
 
         [BUG FIXES]
 
-        * By default don't show done todos
+        - By default don't show done todos.
 
 
 0.07    2011-09-23 (SHARYANTO)
 
         [ENHANCEMENTS]
 
-        * Support time zones
+        - Support time zones.
 
 
 0.06    2011-09-23 (SHARYANTO)
 
-        * Fix bug related to time zone
+        - Fix bug related to time zone.
 
 
 0.05    2011-06-30 (SHARYANTO)
 
         [ENHANCEMENTS]
 
-        * list-org-todos: now obeys warning period in timestamps
+        - list-org-todos: now obeys warning period in timestamps.
 
 
 0.04    2011-06-15 (SHARYANTO)
 
         [BUG FIXES]
 
-        * dump-org-structure: fix utf8 reading
+        - dump-org-structure: fix utf8 reading.
 
 
 0.03    2011-06-09 (SHARYANTO)
 
-        No functional changes
-
-        * Fixes in POD and packaging, add sample outputs in Synopsis.
+        - No functional changes. Fixes in POD and packaging, add sample outputs
+          in Synopsis.
 
 
 0.02    2011-06-09 (SHARYANTO)
 
-        * Rename distribution from App-ListOrgHeadlines to App-OrgUtils.
+        - Rename distribution from App-ListOrgHeadlines to App-OrgUtils.
 
-        * Move script from Org::Parser: dump-org-structure.
+        - Move script from Org::Parser: dump-org-structure.
 
-        * Add scripts: list-org-anniversaries.
+        - Add scripts: list-org-anniversaries.
 
 
 0.01    2011-06-06 (SHARYANTO)
 
-        First release, spun off from Org::Parser's sample script.
+        - First release, spun off from Org::Parser's sample script.
