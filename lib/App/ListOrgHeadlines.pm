@@ -334,7 +334,7 @@ sub list_org_headlines {
     if ($args{group_by_tags}) {
         # cache tags in each @res element's [3] element
         for (@res) { $_->[3] = [$_->[2]->get_tags] }
-        my @tags = sort uniq map {@{$_->[3]}} @res;
+        my @tags = sort(uniq map {@{$_->[3]}} @res);
         $res = {};
         for my $tag ('', @tags) {
             $res->{$tag} = [];
