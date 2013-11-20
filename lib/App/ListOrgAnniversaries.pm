@@ -3,6 +3,7 @@ package App::ListOrgAnniversaries;
 use 5.010;
 use strict;
 use warnings;
+use experimental 'smartmatch';
 use Log::Any qw($log);
 
 use App::OrgUtils;
