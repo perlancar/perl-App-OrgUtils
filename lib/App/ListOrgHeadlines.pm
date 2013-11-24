@@ -11,7 +11,6 @@ use Cwd qw(abs_path);
 use DateTime;
 use Digest::MD5 qw(md5_hex);
 use List::MoreUtils qw(uniq);
-use Scalar::Util qw(reftype);
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -236,8 +235,7 @@ _
         },
         today => {
             schema => ['any' => {
-                # disable temporarily due to Data::Sah broken - 2012-12-25
-                #of => ['int', [obj => {isa=>'DateTime'}]],
+                of => ['int', [obj => {isa=>'DateTime'}]],
             }],
             summary => 'Assume today\'s date',
             description => <<'_',
@@ -249,11 +247,10 @@ _
         },
         sort => {
             schema => [any => {
-                # disable temporarily due to Data::Sah broken - 2012-12-25
-                #of => [
-                #    ['str*' => {in=>['due_date', '-due_date']}],
-                #    'code*'
-                #],
+                of => [
+                    ['str*' => {in=>['due_date', '-due_date']}],
+                    'code*',
+                ],
                 default => 'due_date',
             }],
             summary => 'Specify sorting',
@@ -306,7 +303,7 @@ sub list_org_headlines {
     }
 
     if ($sort) {
-        if ((reftype($sort)//'') eq 'CODE') {
+        if (ref($sort) eq 'CODE') {
             @res = sort $sort @res;
         } elsif ($sort =~ /^-?due_date$/) {
             @res = sort {
@@ -324,10 +321,6 @@ sub list_org_headlines {
                 }
                 ($sort =~ /^-/ ? -1 : 1) * $comp;
             } @res;
-        } else {
-            # XXX should die here because when Sah is ready, invalid values have
-            # been filtered
-            return [400, "Invalid sort argument"];
         }
     }
 

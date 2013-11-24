@@ -11,7 +11,6 @@ use Cwd qw(abs_path);
 use DateTime;
 use Digest::MD5 qw(md5_hex);
 use Lingua::EN::Numbers::Ordinate;
-use Scalar::Util qw(reftype);
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -119,6 +118,7 @@ sub _process_hl {
 }
 
 $SPEC{list_org_anniversaries} = {
+    v => 1.1,
     summary => 'List all anniversaries in Org files',
     description => <<'_',
 This function expects contacts in the following format:
@@ -151,65 +151,76 @@ startup script).
 
 _
     args    => {
-        files => ['array*' => {
-            of         => 'str*',
-            arg_pos    => 0,
-            arg_greedy => 1,
-        }],
-        cache_dir => ['str*' => {
+        files => {
+            schema  => ['array*' => {of => 'str*'}],
+            req     => 1,
+            pos     => 0,
+            greedy  => 1,
+        },
+        cache_dir => {
             summary => 'Cache Org parse result',
+            schema  => ['str*'],
             description => <<'_',
 
 Since Org::Parser can spend some time to parse largish Org files, this is an
 option to store the parse result. Caching is turned on if this argument is set.
 
 _
-        }],
-        field_pattern => [str => {
+        },
+        field_pattern => {
             summary => 'Field regex that specifies anniversaries',
-            default => '(?:birthday|anniversary)'
-        }],
-        has_tags => [array => {
+            schema  => [str => {
+                default => '(?:birthday|anniversary)',
+            }],
+        },
+        has_tags => {
             summary => 'Filter headlines that have the specified tags',
-        }],
-        lacks_tags => [array => {
+            schema  => [array => {of => 'str*'}],
+        },
+        lacks_tags => {
             summary => 'Filter headlines that don\'t have the specified tags',
-        }],
-        due_in => [int => {
+            schema  => [array => {of => 'str*'}],
+        },
+        due_in => {
             summary => 'Only show anniversaries that are due '.
                 'in this number of days',
-        }],
-        max_overdue => [int => {
+            schema  => ['int'],
+        },
+        max_overdue => {
             summary => 'Don\'t show dates that are overdue '.
                 'more than this number of days',
-        }],
-        time_zone => [str => {
+            schema  => ['int'],
+        },
+        time_zone => {
             summary => 'Will be passed to parser\'s options',
+            schema  => ['str'],
             description => <<'_',
 
 If not set, TZ environment variable will be picked as default.
 
 _
-        }],
-        today => [any => {
-            # disable temporarily due to Data::Sah broken - 2012-12-25
-            #of => ['int', [obj => {isa=>'DateTime'}]],
+        },
+        today => {
             summary => 'Assume today\'s date',
+            schema  => [any => {
+                of => ['int', [obj => {isa=>'DateTime'}]],
+            }],
             description => <<'_',
 
 You can provide Unix timestamp or DateTime object. If you provide a DateTime
 object, remember to set the correct time zone.
 
 _
-        }],
-        sort => [any => {
-            # disable temporarily due to Data::Sah broken - 2012-12-25
-            #of => [
-            #    ['str*' => {in=>['due_date', '-due_date']}],
-            #    'code*'
-            #],
-            default => 'due_date',
+        },
+        sort => {
             summary => 'Specify sorting',
+            schema  => [any => {
+                of => [
+                    ['str*' => {in=>['due_date', '-due_date']}],
+                    'code*',
+                ],
+                default => 'due_date',
+            }],
             description => <<'_',
 
 If string, must be one of 'date', '-date' (descending).
@@ -219,8 +230,8 @@ REC is the final record that will be returned as final result (can be a string
 or a hash, if 'detail' is enabled), and DUE_DATE is the DateTime object.
 
 _
-        }],
-   },
+        },
+    },
 };
 sub list_org_anniversaries {
     my %args = @_;
@@ -262,7 +273,7 @@ sub list_org_anniversaries {
     }
 
     if ($sort) {
-        if ((reftype($sort)//'') eq 'CODE') {
+        if (ref($sort) eq 'CODE') {
             @res = sort $sort @res;
         } elsif ($sort =~ /^-?due_date$/) {
             @res = sort {
@@ -271,10 +282,6 @@ sub list_org_anniversaries {
                 my $comp = DateTime->compare($dt1, $dt2);
                 ($sort =~ /^-/ ? -1 : 1) * $comp;
             } @res;
-        } else {
-            # XXX should die here because when Sah is ready, invalid values have
-            # been filtered
-            return [400, "Invalid sort argument"];
         }
     }
 
