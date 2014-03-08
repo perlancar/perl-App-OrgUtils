@@ -21,10 +21,12 @@ $spec->{summary} = "List all todo items in all Org files";
 delete $spec->{args}{todo};
 $spec->{args}{done}{schema}[1]{default} = 0;
 $spec->{args}{sort}{schema}[1]{default} = 'due_date';
+$spec->{"x.dist.zilla.plugin.rinci.wrap.wrap_args"} = {validate_args=>0, validate_result=>0}; # don't bother checking arguments, they will be checked in list_org_headlines()
 
 $SPEC{list_org_todos} = $spec;
 sub list_org_todos {
     my %args = @_;
+
     $args{done} //= 0;
 
     App::ListOrgHeadlines::list_org_headlines(%args, todo=>1);

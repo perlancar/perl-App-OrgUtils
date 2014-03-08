@@ -133,7 +133,7 @@ $SPEC{list_org_headlines} = {
     summary => 'List all headlines in all Org files',
     args    => {
         files => {
-            schema => ['array*' => of => 'str*'],
+            schema => ['array*' => of => 'str*', min_len=>1],
             req    => 1,
             pos    => 0,
             greedy => 1,
@@ -270,13 +270,10 @@ _
 };
 sub list_org_headlines {
     my %args = @_;
-    my $sort = $args{sort} // 'due_date';
 
-    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
-
+    my $sort  = $args{sort};
+    my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
     my $files = $args{files};
-    return [400, "Please specify files"] if !$files || !@$files;
-
     if ($args{today}) {
         if (ref($args{today})) {
             $today = $args{today};
@@ -286,6 +283,7 @@ sub list_org_headlines {
     } else {
         $today = DateTime->today(time_zone => $tz);
     }
+
     $yest  = $today->clone->add(days => -1);
 
     my @res;

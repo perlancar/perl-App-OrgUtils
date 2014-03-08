@@ -152,7 +152,7 @@ startup script).
 _
     args    => {
         files => {
-            schema  => ['array*' => {of => 'str*'}],
+            schema  => ['array*' => {of => 'str*', min_len=>1}],
             req     => 1,
             pos     => 0,
             greedy  => 1,
@@ -235,17 +235,13 @@ _
 };
 sub list_org_anniversaries {
     my %args = @_;
-    my $sort = $args{sort} // 'due_date';
 
-    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
-
-    # XXX schema
+    my $sort  = $args{sort};
+    my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
     my $files = $args{files};
-    return [400, "Please specify files"] if !$files || !@$files;
-    my $f = $args{field_pattern} // '(?:birthday|anniversary)';
+    my $f     = $args{field_pattern};
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
-
     if ($args{today}) {
         if (ref($args{today})) {
             $today = $args{today};
@@ -255,6 +251,7 @@ sub list_org_anniversaries {
     } else {
         $today = DateTime->today(time_zone => $tz);
     }
+
     $yest  = $today->clone->add(days => -1);
 
     my $orgp = Org::Parser->new;
