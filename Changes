@@ -1,5 +1,11 @@
 Revision history for App-OrgUtils
 
+0.21    2014-03-08 (SHARYANTO)
+
+	- No functional changes. Rebuild with DZP::Rinci::Wrap to test embedding
+          wrapper code.
+
+
 0.20    2013-11-20 (SHARYANTO)
 
 	- No functional changes. Adjustment to newer perls (e.g. 'use
