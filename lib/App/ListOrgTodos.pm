@@ -6,7 +6,7 @@ use warnings;
 use Log::Any qw($log);
 
 use App::ListOrgHeadlines qw(list_org_headlines);
-use Data::Clone;
+use Perinci::Sub::Util qw(gen_modified_sub);
 
 require Exporter;
 our @ISA       = qw(Exporter);
@@ -16,21 +16,28 @@ our @EXPORT_OK = qw(list_org_todos);
 
 our %SPEC;
 
-my $spec = clone($App::ListOrgHeadlines::SPEC{list_org_headlines});
-$spec->{summary} = "List all todo items in all Org files";
-delete $spec->{args}{todo};
-$spec->{args}{done}{schema}[1]{default} = 0;
-$spec->{args}{sort}{schema}[1]{default} = 'due_date';
-$spec->{"x.dist.zilla.plugin.rinci.wrap.wrap_args"} = {validate_args=>0, validate_result=>0}; # don't bother checking arguments, they will be checked in list_org_headlines()
+gen_modified_sub(
+    output_name => 'list_org_todos',
+    summary     => 'List all todo items in all Org files',
 
-$SPEC{list_org_todos} = $spec;
-sub list_org_todos {
-    my %args = @_;
+    base_name   => 'App::ListOrgHeadlines::list_org_headlines',
+    remove_args => ['todo'],
+    modify_args => {
+        done => sub { my $as = shift; $as->{schema}[1]{default} = 0 },
+        sort => sub { my $as = shift; $as->{schema}[1]{default} = 'due_date' },
+    },
+    modify_meta => sub {
+        my $meta = shift;
+        $meta->{"x.dist.zilla.plugin.rinci.wrap.wrap_args"} = {validate_args=>0, validate_result=>0}; # don't bother checking arguments, they will be checked in list_org_headlines()
+    },
+    output_code => sub {
+        my %args = @_;
 
-    $args{done} //= 0;
+        $args{done} //= 0;
 
-    App::ListOrgHeadlines::list_org_headlines(%args, todo=>1);
-}
+        App::ListOrgHeadlines::list_org_headlines(%args, todo=>1);
+    },
+);
 
 1;
 #ABSTRACT: List todo items in Org files
