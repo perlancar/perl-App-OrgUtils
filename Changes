@@ -1,5 +1,13 @@
 Revision history for App-OrgUtils
 
+0.22     2014-07-22 (SHARYANTO)
+
+         - No functional changes.
+
+         - Switch CLI scripts from using Perinci::CmdLine to
+           Perinci::CmdLine::Any to reduce size of dependencies.
+
+
 0.21    2014-03-08 (SHARYANTO)
 
 	- No functional changes. Rebuild with DZP::Rinci::Wrap to test embedding
