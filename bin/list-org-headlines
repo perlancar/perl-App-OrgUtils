@@ -4,12 +4,12 @@ use 5.010;
 use strict;
 use warnings;
 
-use Perinci::CmdLine;
+use Perinci::CmdLine::Any;
 
 # VERSION
 
 binmode STDOUT, ":utf8";
-Perinci::CmdLine->new(url=>'/App/ListOrgHeadlines/list_org_headlines')->run;
+Perinci::CmdLine::Any->new(url=>'/App/ListOrgHeadlines/list_org_headlines')->run;
 
 1;
 # ABSTRACT: List headlines in Org files
