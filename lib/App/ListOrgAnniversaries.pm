@@ -292,15 +292,3 @@ sub list_org_anniversaries {
 =head1 SYNOPSIS
 
  # See list-org-anniversaries script
-
-
-=head1 DESCRIPTION
-
-This module uses L<Log::Any> logging framework.
-
-
-=head1 FUNCTIONS
-
-None are exported, but they are exportable.
-
-=cut
