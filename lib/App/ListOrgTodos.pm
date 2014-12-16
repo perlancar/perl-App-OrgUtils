@@ -1,5 +1,8 @@
 package App::ListOrgTodos;
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
@@ -11,8 +14,6 @@ use Perinci::Sub::Util qw(gen_modified_sub);
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(list_org_todos);
-
-# VERSION
 
 our %SPEC;
 
@@ -40,7 +41,7 @@ gen_modified_sub(
 );
 
 1;
-#ABSTRACT: List todo items in Org files
+#ABSTRACT:
 
 =head1 SYNOPSIS
 

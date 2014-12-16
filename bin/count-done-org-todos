@@ -25,7 +25,7 @@ $doc->walk(
 say $n;
 
 # ABSTRACT: Count todos which are done in Org document
-# PODNAME: count-done-org-todos
+# PODNAME:
 
 =head1 SYNOPSIS
 

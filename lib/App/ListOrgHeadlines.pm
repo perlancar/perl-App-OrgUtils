@@ -1,5 +1,8 @@
 package App::ListOrgHeadlines;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
@@ -15,8 +18,6 @@ use List::MoreUtils qw(uniq);
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(list_org_headlines);
-
-# VERSION
 
 our %SPEC;
 
@@ -350,7 +351,7 @@ sub list_org_headlines {
 }
 
 1;
-#ABSTRACT: List headlines in Org files
+#ABSTRACT:
 
 =head1 SYNOPSIS
 

@@ -1,19 +1,20 @@
 #!perl
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
 
 use Perinci::CmdLine::Any;
 
-# VERSION
-
 binmode STDOUT, ":utf8";
 Perinci::CmdLine::Any->new(url => '/App/ListOrgTodos/list_org_todos')->run;
 
 1;
-# ABSTRACT: List todo items in Org files
-# PODNAME: list-org-todos
+# ABSTRACT:
+# PODNAME:
 
 =head1 SYNOPSIS
 

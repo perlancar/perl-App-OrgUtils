@@ -1,5 +1,8 @@
 package App::ListOrgAnniversaries;
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
@@ -15,8 +18,6 @@ use Lingua::EN::Numbers::Ordinate;
 require Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(list_org_anniversaries);
-
-# VERSION
 
 our %SPEC;
 
@@ -287,7 +288,7 @@ sub list_org_anniversaries {
 }
 
 1;
-#ABSTRACT: List headlines in Org files
+#ABSTRACT:
 
 =head1 SYNOPSIS
 

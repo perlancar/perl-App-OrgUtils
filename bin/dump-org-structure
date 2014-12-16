@@ -19,7 +19,7 @@ print Org::Dump::dump_element($doc);
 
 1;
 # ABSTRACT: Dump Org document structure
-# PODNAME: dump-org-structure
+# PODNAME:
 
 =head1 SYNOPSIS
 

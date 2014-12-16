@@ -1,10 +1,11 @@
 #!perl
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
-
-# VERSION
 
 use Perinci::CmdLine::Any;
 
@@ -13,8 +14,8 @@ Perinci::CmdLine::Any->new(
     url => '/App/ListOrgAnniversaries/list_org_anniversaries')->run;
 
 1;
-# ABSTRACT: List anniversaries in Org files
-# PODNAME: list-org-anniversaries
+# ABSTRACT:
+# PODNAME:
 
 =head1 SYNOPSIS
 

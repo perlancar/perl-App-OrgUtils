@@ -26,7 +26,7 @@ $doc->walk(
 say $n;
 
 # ABSTRACT: Count todos which are undone in Org document
-# PODNAME: count-undone-org-todos
+# PODNAME:
 
 =head1 SYNOPSIS
 
