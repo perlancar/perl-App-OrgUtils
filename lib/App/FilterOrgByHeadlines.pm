@@ -190,7 +190,7 @@ sub filter_org_by_headlines {
             }
             last if !$with_ct && !$is_hl;
             if (defined $curhl_filtered) {
-                $include++ if $curhl_filtered;
+                $include++ if !$curhl_filtered;
                 last FILTER;
             }
 
