@@ -113,6 +113,13 @@ _
                 "Don't include headline content, just print the headlines",
             default => 1,
         },
+        with_preamble => {
+            schema => 'bool',
+            summary => 'Include text before any headline',
+            'summary.alt.bool.not' =>
+                "Don't include text before any headline",
+            default => 1,
+        },
     },
     result_naked => 1,
     result => {
@@ -122,8 +129,9 @@ _
 sub filter_org_by_headlines {
     my %args = @_;
 
-    my $input   = $args{input};
-    my $with_ct = $args{with_content} // 1;
+    my $input    = $args{input};
+    my $with_ct  = $args{with_content} // 1;
+    my $with_pre = $args{with_preamble} // 1;
 
     my $curhl;
     my $curlevel;
@@ -177,7 +185,7 @@ sub filter_org_by_headlines {
         my $include;
       FILTER: {
             if (!$curhl) {
-                $include++;
+                $include++ if $with_pre;
                 last FILTER;
             }
             last if !$with_ct && !$is_hl;
