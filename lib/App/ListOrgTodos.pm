@@ -51,8 +51,4 @@ gen_modified_sub(
 =head1 DESCRIPTION
 
 
-=head1 FUNCTIONS
-
-None are exported, but they are exportable.
-
 =cut

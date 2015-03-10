@@ -1,5 +1,11 @@
 Revision history for App-OrgUtils
 
+0.24    2015-03-10 (PERLANCAR)
+
+	- Change result metadata 'result_format_options' ->
+	  'cmdline.format_options'.
+
+
 0.23     2015-01-03 (PERLANCAR)
 
          - Add utility: filter-org-by-headlines.

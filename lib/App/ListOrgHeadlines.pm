@@ -358,8 +358,4 @@ sub list_org_headlines {
 =head1 DESCRIPTION
 
 
-=head1 FUNCTIONS
-
-None are exported, but they are exportable.
-
 =cut
