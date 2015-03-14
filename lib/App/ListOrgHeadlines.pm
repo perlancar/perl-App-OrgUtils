@@ -56,6 +56,30 @@ sub _process_hl {
         my $p = $hl->todo_priority;
         return unless defined($p) && $args->{priority} eq $p;
     }
+    if (defined $args->{minimum_priority}) {
+        my $p = $hl->todo_priority;
+
+        if (defined $p) {
+            my $cmp = $hl->document->cmp_priorities(
+                $p, $args->{minimum_priority});
+            return if defined($cmp) && $cmp > 0;
+            return if !defined($cmp) && !$args->{with_unknown_priority};
+        } else {
+            return unless $args->{with_unknown_priority};
+        }
+    }
+    if (defined $args->{maximum_priority}) {
+        my $p = $hl->todo_priority;
+
+        if (defined $p) {
+            my $cmp = $hl->document->cmp_priorities(
+                $p, $args->{maximum_priority});
+            return if defined($cmp) && $cmp < 0;
+            return if !defined($cmp) && !$args->{with_unknown_priority};
+        } else {
+            return unless $args->{with_unknown_priority};
+        }
+    }
 
     my $ats = $hl->get_active_timestamp;
     my $days;
@@ -224,6 +248,45 @@ _
             schema => ['str'],
             summary => 'Only show todo items that have this priority',
             tags => ['filter'],
+        },
+        minimum_priority => {
+            schema => ['str'],
+            summary => 'Only show todo items that have at least this priority',
+            tags => ['filter'],
+            description => <<'_',
+
+Note that the default priority list is [A, B, C] (A being the highest) and it
+can be customized using the `#+PRIORITIES` setting.
+
+_
+            links => ['maximum_priority'],
+        },
+        maximum_priority => {
+            schema => ['str'],
+            summary => 'Only show todo items that have at most this priority',
+            tags => ['filter'],
+            description => <<'_',
+
+Note that the default priority list is [A, B, C] (A being the highest) and it
+can be customized using the `#+PRIORITIES` setting.
+
+_
+            links => ['minimum_priority'],
+        },
+        with_unknown_priority => {
+            schema => ['bool'],
+            summary => 'Also show items with no/unknown priority',
+            tags => ['filter'],
+            description => <<'_',
+
+Relevant only when used with `minimum_priority` and/or `maximum_priority`.
+
+If this option is turned on, todo items that does not have any priority or have
+unknown priorities will *still* be included. Otherwise they will not be
+included.
+
+_
+            links => ['minimum_priority', 'maximum_priority'],
         },
         time_zone => {
             schema => ['str'],
