@@ -1,5 +1,11 @@
 Revision history for App-OrgUtils
 
+0.25    2015-03-15 (PERLANCAR)
+
+	- Add options --minimum-priority, --maximum-priority,
+	  --with-unknown-priority to list-org-todos.
+
+
 0.24    2015-03-10 (PERLANCAR)
 
 	- Change result metadata 'result_format_options' ->
