@@ -1,13 +1,14 @@
 package App::OrgUtils;
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
 use Log::Any '$log';
 
 use Org::Parser;
-
-# VERSION
 
 sub _load_org_files_with_cache {
     require Cwd;
@@ -40,7 +41,6 @@ sub _load_org_files_with_cache {
 
 1;
 #ABSTRACT: Some utilities for Org documents
-__END__
 
 =head1 DESCRIPTION
 
