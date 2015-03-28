@@ -337,7 +337,7 @@ sub list_org_headlines {
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
     my $files = $args{files};
 
-    $today = $args{today} // DateTime->today;
+    $today = $args{today} // DateTime->today(time_zone => $tz);
 
     $yest  = $today->clone->add(days => -1);
 
