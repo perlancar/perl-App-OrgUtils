@@ -1,5 +1,16 @@
 Revision history for App-OrgUtils
 
+0.26    2015-03-28 (PERLANCAR)
+
+	- [Bugfix] Fix calculating delta days, don't use manual epoch
+	  arithmetics because that will expose previous bug of timezone
+	  difference.
+
+	- [Bugfix] Fix date calculation: make sure today() also uses the
+	  same timezone, otherwise epoch arithmetics possible will yield <
+	  86400 even though date differs by 1 day.
+
+
 0.25    2015-03-15 (PERLANCAR)
 
 	- Add options --minimum-priority, --maximum-priority,
