@@ -91,7 +91,7 @@ sub _process_hl {
         my $date_ny = $date->clone; $date_ny->add(years => $y+1);
       DATE:
         for my $d ($date_ly, $date_ty, $date_ny) {
-            my $days = int(($d->epoch - $today->epoch)/86400);
+            my $days = ($d < $today ? -1:1) * $d->delta_days($today)->in_units('days');
             next if defined($args->{due_in}) &&
                 $days > $args->{due_in};
             next if defined($args->{max_overdue}) &&

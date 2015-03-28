@@ -83,7 +83,7 @@ sub _process_hl {
 
     my $ats = $hl->get_active_timestamp;
     my $days;
-    $days = int(($ats->datetime->epoch - $today->epoch)/86400)
+    $days = ($ats->datetime < $today ? -1:1) * $ats->datetime->delta_days($today)->in_units('days')
         if $ats;
     if (exists $args->{due_in}) {
         return unless $ats;
