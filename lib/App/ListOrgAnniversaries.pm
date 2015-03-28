@@ -242,7 +242,7 @@ sub list_org_anniversaries {
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
 
-    $today = $args{today} if $args{today};
+    $today = $args{today} // DateTime->today;
 
     $yest  = $today->clone->add(days => -1);
 
