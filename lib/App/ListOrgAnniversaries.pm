@@ -203,9 +203,7 @@ _
         },
         today => {
             summary => 'Assume today\'s date',
-            schema  => [any => {
-                of => ['int', [obj => {isa=>'DateTime'}]],
-            }],
+            schema  => [obj => isa=>'DateTime'],
             description => <<'_',
 
 You can provide Unix timestamp or DateTime object. If you provide a DateTime
@@ -243,15 +241,8 @@ sub list_org_anniversaries {
     my $f     = $args{field_pattern} // '';
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
-    if ($args{today}) {
-        if (ref($args{today})) {
-            $today = $args{today};
-        } else {
-            $today = DateTime->from_epoch(epoch=>$args{today}, time_zone=>$tz);
-        }
-    } else {
-        $today = DateTime->today(time_zone => $tz);
-    }
+
+    $today = $args{today} if $args{today};
 
     $yest  = $today->clone->add(days => -1);
 

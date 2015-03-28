@@ -298,9 +298,7 @@ If not set, TZ environment variable will be picked as default.
 _
         },
         today => {
-            schema => ['any' => {
-                of => ['int', [obj => {isa=>'DateTime'}]],
-            }],
+            schema => [obj => isa=>'DateTime'],
             summary => 'Assume today\'s date',
             description => <<'_',
 
@@ -338,15 +336,8 @@ sub list_org_headlines {
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
     my $files = $args{files};
-    if ($args{today}) {
-        if (ref($args{today})) {
-            $today = $args{today};
-        } else {
-            $today = DateTime->from_epoch(epoch=>$args{today}, time_zone=>$tz);
-        }
-    } else {
-        $today = DateTime->today(time_zone => $tz);
-    }
+
+    $today = $args{today} if $args{today};
 
     $yest  = $today->clone->add(days => -1);
 
