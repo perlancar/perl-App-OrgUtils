@@ -10,6 +10,108 @@ use Log::Any '$log';
 
 use Org::Parser;
 
+our $_complete_state = sub {
+    use experimental 'smartmatch';
+    require Complete::Util;
+
+    my %args = @_;
+
+    # only return answer under CLI
+    return undef unless my $cmdline = $args{cmdline};
+    my $r = $args{r};
+
+    # force read config
+    $r->{read_config} = 1;
+    my $res = $cmdline->parse_argv($r);
+    return undef unless $res->[0] == 200;
+    my $args = $res->[2];
+
+    # read org
+    return unless $args->{files} && @{ $args->{files} };
+    my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+
+    # get todo states
+    my @states;
+    for my $doc (values %docs) {
+        for (@{ $doc->todo_states }, @{ $doc->done_states }) {
+            push @states, $_ unless $_ ~~ @states;
+        }
+    }
+    Complete::Util::complete_array_elem(array=>\@states, word=>$args{word});
+};
+
+our $_complete_priority = sub {
+    use experimental 'smartmatch';
+    require Complete::Util;
+
+    my %args = @_;
+
+    # only return answer under CLI
+    return undef unless my $cmdline = $args{cmdline};
+    my $r = $args{r};
+
+    # force read config
+    $r->{read_config} = 1;
+    my $res = $cmdline->parse_argv($r);
+    return undef unless $res->[0] == 200;
+    my $args = $res->[2];
+
+    # read org
+    return unless $args->{files} && @{ $args->{files} };
+    my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+
+    # get priorities
+    my @prios;
+    for my $doc (values %docs) {
+        for (@{ $doc->priorities }) {
+            push @prios, $_ unless $_ ~~ @prios;
+        }
+    }
+    Complete::Util::complete_array_elem(array=>\@prios, word=>$args{word});
+};
+
+our $_complete_tags = sub {
+    use experimental 'smartmatch';
+    require Complete::Util;
+
+    my %args = @_;
+
+    # only return answer under CLI
+    return undef unless my $cmdline = $args{cmdline};
+    my $r = $args{r};
+
+    # force read config
+    $r->{read_config} = 1;
+    my $res = $cmdline->parse_argv($r);
+    return undef unless $res->[0] == 200;
+    my $args = $res->[2];
+
+    # read org
+    return unless $args->{files} && @{ $args->{files} };
+    my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+
+    # collect tags
+    my @tags;
+    for my $doc (values %docs) {
+        $doc->walk(
+            sub {
+                my $el = shift;
+                return unless $el->isa('Org::Element::Headline');
+                for ($el->get_tags) {
+                    push @tags, $_ unless $_ ~~ @tags;
+                }
+            }
+        );
+    }
+    Complete::Util::complete_array_elem(array=>\@tags, word=>$args{word});
+};
+
 sub _load_org_files_with_cache {
     require Cwd;
     require Digest::MD5;

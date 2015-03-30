@@ -157,6 +157,7 @@ _
             req     => 1,
             pos     => 0,
             greedy  => 1,
+            'x.schema.element_entity' => 'filename',
         },
         cache_dir => {
             summary => 'Cache Org parse result',
@@ -167,6 +168,7 @@ Since Org::Parser can spend some time to parse largish Org files, this is an
 option to store the parse result. Caching is turned on if this argument is set.
 
 _
+            'x.schema.entity' => 'dirname',
         },
         field_pattern => {
             summary => 'Field regex that specifies anniversaries',
@@ -177,10 +179,12 @@ _
         has_tags => {
             summary => 'Filter headlines that have the specified tags',
             schema  => [array => {of => 'str*'}],
+            element_completion => $App::OrgUtils::_complete_tags,
         },
         lacks_tags => {
             summary => 'Filter headlines that don\'t have the specified tags',
             schema  => [array => {of => 'str*'}],
+            element_completion => $App::OrgUtils::_complete_tags,
         },
         due_in => {
             summary => 'Only show anniversaries that are due '.
@@ -200,6 +204,7 @@ _
 If not set, TZ environment variable will be picked as default.
 
 _
+            #'x.schema.entity' => 'timezone',
         },
         today => {
             summary => 'Assume today\'s date',

@@ -162,6 +162,7 @@ $SPEC{list_org_headlines} = {
             req    => 1,
             pos    => 0,
             greedy => 1,
+            'x.schema.element_entity' => 'filename',
         },
         cache_dir => {
             schema => ['str*'],
@@ -172,6 +173,7 @@ Since Org::Parser can spend some time to parse largish Org files, this is an
 option to store the parse result. Caching is turned on if this argument is set.
 
 _
+            'x.schema.entity' => 'dirname',
         },
         todo => {
             schema => ['bool'],
@@ -203,12 +205,12 @@ _
             tags => ['filter'],
         },
         from_level => {
-            schema => [int => default => 1],
+            schema => [int => {default=>1, min=>1}],
             summary => 'Only show headlines having this level as the minimum',
             tags => ['filter'],
         },
         to_level => {
-            schema => ['int'],
+            schema => ['int' => {min=>1}],
             summary => 'Only show headlines having this level as the maximum',
             tags => ['filter'],
         },
@@ -216,6 +218,7 @@ _
             schema => ['str'],
             summary => 'Only show todo items that have this state',
             tags => ['filter'],
+            completion => $App::OrgUtils::_complete_state,
         },
         detail => {
             schema => [bool => default => 0],
@@ -223,14 +226,16 @@ _
             tags => ['format'],
         },
         has_tags => {
-            schema => ['array'],
+            schema => ['array', of=>'str*'],
             summary => 'Only show headlines that have the specified tags',
             tags => ['filter'],
+            element_completion => $App::OrgUtils::_complete_tags,
         },
         lacks_tags => {
-            schema => ['array'],
+            schema => ['array', of=>'str*'],
             summary=> 'Only show headlines that don\'t have the specified tags',
             tags => ['filter'],
+            element_completion => $App::OrgUtils::_complete_tags,
         },
         group_by_tags => {
             schema => [bool => default => 0],
@@ -248,6 +253,7 @@ _
             schema => ['str'],
             summary => 'Only show todo items that have this priority',
             tags => ['filter'],
+            completion => $App::OrgUtils::_complete_priority,
         },
         minimum_priority => {
             schema => ['str'],
@@ -260,6 +266,7 @@ can be customized using the `#+PRIORITIES` setting.
 
 _
             links => ['maximum_priority'],
+            completion => $App::OrgUtils::_complete_priority,
         },
         maximum_priority => {
             schema => ['str'],
@@ -272,6 +279,7 @@ can be customized using the `#+PRIORITIES` setting.
 
 _
             links => ['minimum_priority'],
+            completion => $App::OrgUtils::_complete_priority,
         },
         with_unknown_priority => {
             schema => ['bool'],
@@ -296,6 +304,7 @@ _
 If not set, TZ environment variable will be picked as default.
 
 _
+            #'x.schema.entity' => 'timezone',
         },
         today => {
             schema => [obj => isa=>'DateTime'],
