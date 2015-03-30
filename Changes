@@ -1,5 +1,10 @@
 Revision history for App-OrgUtils
 
+0.27    2015-03-30 (PERLANCAR)
+
+	- [ux] Add completion for tags, states, priorities.
+
+
 0.26    2015-03-28 (PERLANCAR)
 
 	- [Bugfix] Fix calculating delta days, don't use manual epoch
