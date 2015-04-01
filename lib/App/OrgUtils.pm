@@ -42,6 +42,7 @@ _
 );
 
 our $_complete_state = sub {
+    use experimental 'smartmatch';
     require Complete::Util;
 
     my %args = @_;
