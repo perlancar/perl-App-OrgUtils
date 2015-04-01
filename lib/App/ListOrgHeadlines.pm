@@ -157,24 +157,7 @@ $SPEC{list_org_headlines} = {
     v       => 1.1,
     summary => 'List all headlines in all Org files',
     args    => {
-        files => {
-            schema => ['array*' => of => 'str*', min_len=>1],
-            req    => 1,
-            pos    => 0,
-            greedy => 1,
-            'x.schema.element_entity' => 'filename',
-        },
-        cache_dir => {
-            schema => ['str*'],
-            summary => 'Cache Org parse result',
-            description => <<'_',
-
-Since Org::Parser can spend some time to parse largish Org files, this is an
-option to store the parse result. Caching is turned on if this argument is set.
-
-_
-            'x.schema.entity' => 'dirname',
-        },
+        %App::OrgUtils::common_args1,
         todo => {
             schema => ['bool'],
             summary => 'Only show headlines that are todos',
@@ -296,16 +279,6 @@ included.
 _
             links => ['minimum_priority', 'maximum_priority'],
         },
-        time_zone => {
-            schema => ['str'],
-            summary => 'Will be passed to parser\'s options',
-            description => <<'_',
-
-If not set, TZ environment variable will be picked as default.
-
-_
-            #'x.schema.entity' => 'timezone',
-        },
         today => {
             schema => [obj => isa=>'DateTime'],
             summary => 'Assume today\'s date',
@@ -344,7 +317,7 @@ sub list_org_headlines {
 
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
-    my $files = $args{files};
+    my $files = $args{file};
 
     $today = $args{today} // DateTime->today(time_zone => $tz);
 

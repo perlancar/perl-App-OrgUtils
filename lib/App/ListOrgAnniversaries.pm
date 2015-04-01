@@ -152,24 +152,7 @@ startup script).
 
 _
     args    => {
-        files => {
-            schema  => ['array*' => {of => 'str*', min_len=>1}],
-            req     => 1,
-            pos     => 0,
-            greedy  => 1,
-            'x.schema.element_entity' => 'filename',
-        },
-        cache_dir => {
-            summary => 'Cache Org parse result',
-            schema  => ['str*'],
-            description => <<'_',
-
-Since Org::Parser can spend some time to parse largish Org files, this is an
-option to store the parse result. Caching is turned on if this argument is set.
-
-_
-            'x.schema.entity' => 'dirname',
-        },
+        %App::OrgUtils::common_args1,
         field_pattern => {
             summary => 'Field regex that specifies anniversaries',
             schema  => [str => {
@@ -195,16 +178,6 @@ _
             summary => 'Don\'t show dates that are overdue '.
                 'more than this number of days',
             schema  => ['int'],
-        },
-        time_zone => {
-            summary => 'Will be passed to parser\'s options',
-            schema  => ['str'],
-            description => <<'_',
-
-If not set, TZ environment variable will be picked as default.
-
-_
-            #'x.schema.entity' => 'timezone',
         },
         today => {
             summary => 'Assume today\'s date',
@@ -242,7 +215,7 @@ sub list_org_anniversaries {
 
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
-    my $files = $args{files};
+    my $files = $args{file};
     my $f     = $args{field_pattern} // '';
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;

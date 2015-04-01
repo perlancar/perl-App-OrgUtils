@@ -1,0 +1,101 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010;
+use strict;
+use warnings;
+
+use App::OrgUtils;
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+$SPEC{list_org_priorities} = {
+    v => 1.1,
+    summary => 'List all priorities defined in all Org files',
+    args => {
+        %App::OrgUtils::common_args1,
+        detail => {
+            schema => 'bool',
+        },
+        min => {
+            summary => 'Only show priorities higher than or equal to this',
+            schema => 'str*',
+            tags => ['category:filtering'],
+        },
+        xmin => {
+            summary => 'Only show priorities higher than this',
+            schema => 'str*',
+            tags => ['category:filtering'],
+        },
+        max => {
+            summary => 'Only show priorities lower than or equal to this',
+            schema => 'str*',
+            tags => ['category:filtering'],
+        },
+        xmax => {
+            summary => 'Only show priorities lower than this',
+            schema => 'str*',
+            tags => ['category:filtering'],
+        },
+    },
+};
+sub list_org_priorities {
+    my %args = @_;
+
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        $args{file}, $args{cache_dir}, {time_zone=>$tz});
+
+    my @res;
+    my %seen;
+    for my $doc (values %docs) {
+        my $i = 0;
+        for (@{ $doc->priorities }) {
+            $i++;
+
+            if (defined $args{min}) {
+                my $cmp = $doc->cmp_priorities($_, $args{min});
+                next if !defined($cmp) || $cmp > 0;
+            }
+            if (defined $args{xmin}) {
+                my $cmp = $doc->cmp_priorities($_, $args{xmin});
+                next if !defined($cmp) || $cmp >= 0;
+            }
+            if (defined $args{max}) {
+                my $cmp = $doc->cmp_priorities($_, $args{max});
+                next if !defined($cmp) || $cmp < 0;
+            }
+            if (defined $args{xmax}) {
+                my $cmp = $doc->cmp_priorities($_, $args{xmax});
+                next if !defined($cmp) || $cmp <= 0;
+            }
+
+            if ($args{detail}) {
+                push @res, {priority=>$_, order=>$i};
+            } else {
+                push @res, $_;
+            }
+        }
+    }
+
+    my $resmeta = {};
+    if ($args{detail}) {
+        $resmeta->{format_options} = {
+            any=>{table_column_orders=>[[qw/priority order/]]},
+        };
+    }
+
+    [200, "OK", \@res, $resmeta];
+}
+
+binmode STDOUT, ":utf8";
+Perinci::CmdLine::Any->new(url=>'/main/list_org_priorities')->run;
+
+1;
+# ABSTRACT:
+# PODNAME:
+
+=head1 SYNOPSIS

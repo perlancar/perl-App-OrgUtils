@@ -1,0 +1,71 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010;
+use strict;
+use warnings;
+
+use App::OrgUtils;
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+$SPEC{list_org_tags} = {
+    v => 1.1,
+    summary => 'List all headline tags found in all Org files',
+    args => {
+        %App::OrgUtils::common_args1,
+        detail => {
+            schema => 'bool',
+        },
+    },
+};
+sub list_org_tags {
+    my %args = @_;
+
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        $args{file}, $args{cache_dir}, {time_zone=>$tz});
+
+    my %occurences; # key: tag
+    for my $doc (values %docs) {
+        $doc->walk(
+            sub {
+                my $el = shift;
+                return unless $el->isa('Org::Element::Headline');
+                for ($el->get_tags) {
+                    $occurences{$_}++;
+                }
+            }
+        );
+    }
+
+    my @res;
+    for (sort keys %occurences) {
+        if ($args{detail}) {
+            push @res, {tag=>$_, occurences=>$occurences{$_}};
+        } else {
+            push @res, $_;
+        }
+    }
+
+    my $resmeta = {};
+    if ($args{detail}) {
+        $resmeta->{format_options} = {
+            any=>{table_column_orders=>[[qw/tag occurences/]]},
+        };
+    }
+
+    [200, "OK", \@res, $resmeta];
+}
+
+binmode STDOUT, ":utf8";
+Perinci::CmdLine::Any->new(url=>'/main/list_org_tags')->run;
+
+1;
+# ABSTRACT:
+# PODNAME:
+
+=head1 SYNOPSIS

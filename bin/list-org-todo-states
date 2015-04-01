@@ -1,0 +1,78 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010;
+use strict;
+use warnings;
+
+use App::OrgUtils;
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+$SPEC{list_org_todo_states} = {
+    v => 1.1,
+    summary => 'List all todo states in all Org files',
+    args => {
+        %App::OrgUtils::common_args1,
+        detail => {
+            schema => 'bool',
+        },
+        done => {
+            summary => 'Only show done states',
+            'summary.alt.bool.neg' => 'Only show undone states',
+            schema => 'bool',
+            tags => ['category:filtering'],
+        },
+    },
+};
+sub list_org_todo_states {
+    my %args = @_;
+
+    my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
+    my %docs = App::OrgUtils::_load_org_files_with_cache(
+        $args{file}, $args{cache_dir}, {time_zone=>$tz});
+
+    my @res;
+    my %seen;
+    for my $doc (values %docs) {
+        for (@{ $doc->todo_states }) {
+            next if $seen{$_}++;
+            next if $args{done};
+            if ($args{detail}) {
+                push @res, {state=>$_, is_done=>0};
+            } else {
+                push @res, $_;
+            }
+        }
+        for (@{ $doc->done_states }) {
+            next if $seen{$_}++;
+            next if defined($args{done}) && !$args{done};
+            if ($args{detail}) {
+                push @res, {state=>$_, is_done=>1};
+            } else {
+                push @res, $_;
+            }
+        }
+    }
+
+    my $resmeta = {};
+    if ($args{detail}) {
+        $resmeta->{format_options} = {
+            any=>{table_column_orders=>[[qw/state is_done/]]},
+        };
+    }
+
+    [200, "OK", \@res, $resmeta];
+}
+
+binmode STDOUT, ":utf8";
+Perinci::CmdLine::Any->new(url=>'/main/list_org_todo_states')->run;
+
+1;
+# ABSTRACT:
+# PODNAME:
+
+=head1 SYNOPSIS

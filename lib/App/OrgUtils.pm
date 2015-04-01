@@ -10,8 +10,38 @@ use Log::Any '$log';
 
 use Org::Parser;
 
+our %common_args1 = (
+    file => {
+        schema => ['array*' => of => 'str*', min_len=>1],
+        req    => 1,
+        pos    => 0,
+        greedy => 1,
+        'x.schema.element_entity' => 'filename',
+    },
+    cache_dir => {
+        schema => ['str*'],
+        summary => 'Cache Org parse result',
+        description => <<'_',
+
+Since Org::Parser can spend some time to parse largish Org files, this is an
+option to store the parse result. Caching is turned on if this argument is set.
+
+_
+        'x.schema.entity' => 'dirname',
+    },
+    time_zone => {
+        schema => ['str'],
+        summary => 'Will be passed to parser\'s options',
+        description => <<'_',
+
+If not set, TZ environment variable will be picked as default.
+
+_
+        #'x.schema.entity' => 'timezone',
+    },
+);
+
 our $_complete_state = sub {
-    use experimental 'smartmatch';
     require Complete::Util;
 
     my %args = @_;
@@ -27,10 +57,10 @@ our $_complete_state = sub {
     my $args = $res->[2];
 
     # read org
-    return unless $args->{files} && @{ $args->{files} };
+    return unless $args->{file} && @{ $args->{file} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
     my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+        [grep {-f} @{ $args->{file} }], $args->{cache_dir}, {time_zone=>$tz});
 
     # get todo states
     my @states;
@@ -59,10 +89,10 @@ our $_complete_priority = sub {
     my $args = $res->[2];
 
     # read org
-    return unless $args->{files} && @{ $args->{files} };
+    return unless $args->{file} && @{ $args->{file} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
     my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+        [grep {-f} @{ $args->{file} }], $args->{cache_dir}, {time_zone=>$tz});
 
     # get priorities
     my @prios;
@@ -91,10 +121,10 @@ our $_complete_tags = sub {
     my $args = $res->[2];
 
     # read org
-    return unless $args->{files} && @{ $args->{files} };
+    return unless $args->{file} && @{ $args->{file} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
     my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+        [grep {-f} @{ $args->{file} }], $args->{cache_dir}, {time_zone=>$tz});
 
     # collect tags
     my @tags;
