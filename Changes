@@ -1,5 +1,13 @@
 Revision history for App-OrgUtils
 
+0.29    2015-04-02 (PERLANCAR)
+
+	- [Incompatible change] Rename back 'file' argument to 'files' as
+	  they are more suitable as function argument, and anyway CLI
+	  option name will become singular automatically using the new
+	  Perinci::Sub::GetArgs::Argv.
+
+
 0.28    2015-04-01 (PERLANCAR)
 
 	- Add scripts: list-org-priorities, list-org-tags,
