@@ -317,7 +317,7 @@ sub list_org_headlines {
 
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
-    my $files = $args{file};
+    my $files = $args{files};
 
     $today = $args{today} // DateTime->today(time_zone => $tz);
 

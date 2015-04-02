@@ -27,7 +27,7 @@ sub list_org_tags {
 
     my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
     my %docs = App::OrgUtils::_load_org_files_with_cache(
-        $args{file}, $args{cache_dir}, {time_zone=>$tz});
+        $args{files}, $args{cache_dir}, {time_zone=>$tz});
 
     my %occurences; # key: tag
     for my $doc (values %docs) {

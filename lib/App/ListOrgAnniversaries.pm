@@ -215,7 +215,7 @@ sub list_org_anniversaries {
 
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
-    my $files = $args{file};
+    my $files = $args{files};
     my $f     = $args{field_pattern} // '';
     return [400, "Invalid field_pattern: $@"] unless eval { $f = qr/$f/i };
     $args{field_pattern} = $f;
