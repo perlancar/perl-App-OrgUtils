@@ -5,6 +5,10 @@ Revision history for App-OrgUtils
 	- Add scripts: list-org-priorities, list-org-tags,
 	  list-org-todo-states.
 
+        - [Incompatible change] Rename 'files' argument to 'file' so it's nicer
+          for CLI script ('--file blah --file another' instead of '--files blah
+          --files another').
+
 
 0.27    2015-03-30 (PERLANCAR)
 
