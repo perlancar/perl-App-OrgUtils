@@ -38,7 +38,7 @@ _
 If not set, TZ environment variable will be picked as default.
 
 _
-        #'x.schema.entity' => 'timezone',
+        'x.schema.entity' => 'timezone',
     },
 );
 
