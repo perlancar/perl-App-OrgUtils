@@ -179,7 +179,10 @@ sub _load_org_files_with_cache {
 =head1 DESCRIPTION
 
 This distribution includes a few modules (scripts) for dealing with Org
-documents; some originally created as examples/demos for L<Org::Parser>.
+documents; some originally created as examples/demos for L<Org::Parser>. The
+following are the included scripts:
+
+#INSERT_EXECS_LIST
 
 
 =head1 SEE ALSO
