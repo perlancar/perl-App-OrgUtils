@@ -112,6 +112,7 @@ _
             'summary.alt.bool.not' =>
                 "Don't include headline content, just print the headlines",
             default => 1,
+            tags => ['category:result'],
         },
         with_preamble => {
             schema => 'bool',
@@ -119,11 +120,17 @@ _
             'summary.alt.bool.not' =>
                 "Don't include text before any headline",
             default => 1,
+            tags => ['category:result'],
+        },
+        return_array => {
+            schema => ['bool*', is=>1],
+            summary => 'Return array of strings instead of strings',
+            tags => ['category:result'],
         },
     },
     result_naked => 1,
     result => {
-        schema => 'str*',
+        schema => ['any*', of=>['str*', ['array*', of=>'str*']]],
     },
 };
 sub filter_org_by_headlines {
@@ -146,7 +153,7 @@ sub filter_org_by_headlines {
     my $out;
   LINE:
     for my $line (ref($input) ? @$input : split(/^/, $input)) {
-        my $is_hl;
+        my $is_hl; # whether current line is a headline
         if ($line =~ /^#\+TODO:\s*(.+)/) {
             my $arg = $1;
             if (!$seen_todo_def++) {
@@ -232,7 +239,18 @@ sub filter_org_by_headlines {
 
             $include = 1;
         }
-        $out .= $line if $include;
+        if ($include) {
+            if ($args{return_array}) {
+                $out //= [];
+                if ($is_hl) {
+                    push @$out, $line;
+                } else {
+                    $out->[-1] .= $line;
+                }
+            } else {
+                $out .= $line;
+            }
+        }
     }
 
     $out;
