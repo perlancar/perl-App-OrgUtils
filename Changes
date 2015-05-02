@@ -1,5 +1,15 @@
 Revision history for App-OrgUtils
 
+0.31    2015-05-02 (PERLANCAR)
+
+	- Add utils: list-org-headlines-fast, list-org-todos-fast,
+	  count-org-headlines-fast, count-org-todos-fast.
+
+	- filter-org-by-headlines: Add option --return-array.
+
+	- [doc] Include list of scripts in Description.
+
+
 0.30    2015-04-03 (PERLANCAR)
 
 	- [ux] Add x.schema.entity hint for timezone argument.
