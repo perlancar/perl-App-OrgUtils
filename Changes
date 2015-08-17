@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.32    2015-08-17 (PERLANCAR)
+
+	- No functional changes.
+
+	- Switch from Log::Any to Log::Any::IfLOG.
+
+
 0.31    2015-05-02 (PERLANCAR)
 
 	- Add utils: list-org-headlines-fast, list-org-todos-fast,
