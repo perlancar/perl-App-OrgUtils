@@ -6,7 +6,7 @@ package App::ListOrgTodos;
 use 5.010;
 use strict;
 use warnings;
-use Log::Any qw($log);
+use Log::Any::IfLOG qw($log);
 
 use App::ListOrgHeadlines qw(list_org_headlines);
 use Perinci::Sub::Util qw(gen_modified_sub);

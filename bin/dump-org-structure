@@ -1,15 +1,16 @@
 #!perl
 
+# DATE
+# VERSION
+
 use 5.010;
 use strict;
 use warnings;
 use open qw(:std :utf8);
-use Log::Any qw($log);
+use Log::Any::IfLOG qw($log);
 
 use Org::Parser;
 use Org::Dump;
-
-# VERSION
 
 my $input = [<>];
 close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
