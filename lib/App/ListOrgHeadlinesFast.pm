@@ -29,12 +29,15 @@ $SPEC{list_org_headlines} = do {
 sub list_org_headlines {
     my %args = @_;
 
-    App::FilterOrgByHeadlines::filter_org_by_headlines(
+    my $headlines = App::FilterOrgByHeadlines::filter_org_by_headlines(
         %args,
         with_content => 0,
         with_preamble => 0,
         return_array => 1,
     );
+
+    chomp for @$headlines;
+    $headlines;
 }
 
 $SPEC{list_org_todos} = do {

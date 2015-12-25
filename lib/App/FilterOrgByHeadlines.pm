@@ -104,6 +104,18 @@ _
                 'Only include headline which is a todo item but not done',
             tags => ['category:filtering'],
         },
+        has_tags => {
+            'x.name.is_plural' => 1,
+            schema => ['array*', of=>'str*'],
+            summary => 'Only include headline which have all these tags',
+            tags => ['category:filtering'],
+        },
+        lacks_tags => {
+            'x.name.is_plural' => 1,
+            schema => ['array*', of=>'str*'],
+            summary => 'Only include headline which lack all these tags',
+            tags => ['category:filtering'],
+        },
 
         # XXX todo_state => str*
         with_content => {
@@ -144,6 +156,7 @@ sub filter_org_by_headlines {
     my $curlevel;
     my $curtodokw;
     my $curhl_filtered;
+    my $curtags;
     my @parenthls; # ([hl, level], ...)
 
     my %todo_keywords = map {$_=>1} qw(TODO);
@@ -169,6 +182,12 @@ sub filter_org_by_headlines {
 
             my $level = length($1);
             my $arg = $2;
+
+            if ($line =~ /\s+:(\w+(?::\w+)*):(?:\s+|$)/) {
+                $curtags = [split /:/, $1];
+            } else {
+                undef $curtags;
+            }
 
             if ($curlevel && $curlevel < $level) {
                 push @parenthls, [$curhl, $curlevel];
@@ -223,6 +242,17 @@ sub filter_org_by_headlines {
             }
             if (defined $args{match}) {
                 last unless _match($curhl, $args{match});
+            }
+            if ($args{has_tags}) {
+                last unless $curtags;
+                for my $t (@{ $args{has_tags} }) {
+                    last FILTER unless grep {$t eq $_} @$curtags;
+                }
+            }
+            if ($args{lacks_tags}) {
+                for my $t (@{ $args{lacks_tags} }) {
+                    last FILTER if grep {$t eq $_} @{$curtags//[]};
+                }
             }
             if (defined $args{parent_match}) {
                 last unless @parenthls;
