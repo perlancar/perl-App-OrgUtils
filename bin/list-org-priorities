@@ -83,9 +83,7 @@ sub list_org_priorities {
 
     my $resmeta = {};
     if ($args{detail}) {
-        $resmeta->{format_options} = {
-            any=>{table_column_orders=>[[qw/priority order/]]},
-        };
+        $resmeta->{'table.fields'} = [qw/priority order/];
     }
 
     [200, "OK", \@res, $resmeta];

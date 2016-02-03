@@ -53,9 +53,7 @@ sub list_org_tags {
 
     my $resmeta = {};
     if ($args{detail}) {
-        $resmeta->{format_options} = {
-            any=>{table_column_orders=>[[qw/tag occurences/]]},
-        };
+        $resmeta->{'table.fields'} = [qw/tag occurences/];
     }
 
     [200, "OK", \@res, $resmeta];
