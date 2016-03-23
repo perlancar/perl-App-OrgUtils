@@ -1,0 +1,57 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010;
+use strict;
+use warnings;
+use open qw(:std :utf8);
+use Log::Any::IfLOG qw($log);
+
+use Org::Parser;
+
+my $input = [<>];
+close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
+
+my $doc = Org::Parser->new->parse($input);
+
+my %stats = (
+    num_objects => 0,
+);
+
+$doc->walk(
+    sub {
+        my $el = shift;
+        $stats{num_objects}++;
+        my $cl = ref($el); $cl =~ s/^Org::Element:://;
+        $stats{"num_objects_of_type_${cl}"}++;
+    }
+);
+
+for (sort keys %stats) {
+    print "$_\t$stats{$_}\n";
+}
+
+1;
+# ABSTRACT: Print statistics of an Org document
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % stat-org-document   foo.org
+ % stat-org-document < foo.org
+
+
+=head1 DESCRIPTION
+
+This script prints some statistics of an Org document.
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+L<dump-org-structure>
+
+=cut
