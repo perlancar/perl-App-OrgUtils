@@ -9,6 +9,7 @@ use warnings;
 use open qw(:std :utf8);
 use Log::Any::IfLOG qw($log);
 
+use List::Util qw(sum);
 use Org::Parser;
 
 my $input = [<>];
@@ -18,6 +19,8 @@ my $doc = Org::Parser->new->parse($input);
 
 my %stats = (
     num_objects => 0,
+    input_size_in_lines      => ~~@$input,
+    input_size_in_characters => sum(map {length} @$input),
 );
 
 $doc->walk(
@@ -26,6 +29,19 @@ $doc->walk(
         $stats{num_objects}++;
         my $cl = ref($el); $cl =~ s/^Org::Element:://;
         $stats{"num_objects_of_type_${cl}"}++;
+        if ($cl eq 'Headline') {
+            $stats{num_headlines}++;
+            my $level = $el->level;
+            $stats{"num_headlines_level_$level"}++;
+            if ($el->is_todo) {
+                $stats{num_todos}++;
+                if ($el->is_done) {
+                    $stats{num_todos_that_are_done}++;
+                } else {
+                    $stats{num_todos_that_are_undone}++;
+                }
+            }
+        }
     }
 );
 
