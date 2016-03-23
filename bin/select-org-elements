@@ -1,0 +1,80 @@
+#!perl
+
+# DATE
+# VERSION
+
+use 5.010;
+use strict;
+use warnings;
+use open qw(:std :utf8);
+use Log::Any::IfLOG qw($log);
+
+use Data::CSel qw(csel);
+use Getopt::Long::EvenLess;
+use Org::Parser;
+
+my %Opts = (
+    print => 'text',
+);
+
+GetOptions(
+    'help|h|?' => sub {
+        print <<'_';
+Usage:
+  select-org-elements [--print=text*|text-and-children-text|dump] <expression> <input>
+  select-org-elements --help (-h, -?)
+_
+        exit 0;
+    },
+    'print=s' => sub {
+        $Opts{print} = $_[1];
+    },
+) or die "Error in GetOptions\n";
+
+my $expr = shift or die "Please specify CSel expression\n";
+
+my $input = [<>];
+close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
+
+my $doc = Org::Parser->new->parse($input);
+
+my @res = csel(
+    {
+        class_prefixes => ['Org::Element'],
+    },
+    $expr,
+    $doc);
+
+if ($Opts{print} eq 'text-and-children-text') {
+    print $_->as_string, $_->children_as_text for @res;
+} elsif ($Opts{print} eq 'dump') {
+    require Org::Dump;
+    for (@res) {
+        print Org::Dump::dump_element($_);
+    }
+} else {
+    print $_->as_string for @res;
+}
+
+1;
+# ABSTRACT: Select Org document elements using CSel
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % select-org-elements [options] 'Headline[level=2]' foo.org
+
+
+=head1 DESCRIPTION
+
+This script selects Org document nodes using CSel, much like how CSS selector
+selects elements from HTML document. It then invokes
+
+
+=head1 SEE ALSO
+
+L<Org::Parser>
+
+L<Data::CSel>
+
+=cut
