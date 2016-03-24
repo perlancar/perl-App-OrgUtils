@@ -9,7 +9,7 @@ use warnings;
 use open qw(:std :utf8);
 use Log::Any::IfLOG qw($log);
 
-use Data::CSel qw(csel);
+use Data::CSel qw(parse_csel csel);
 use Getopt::Long::EvenLess;
 use Org::Parser;
 
@@ -21,17 +21,27 @@ GetOptions(
     'help|h|?' => sub {
         print <<'_';
 Usage:
-  select-org-elements [--print=text*|text-and-children-text|dump] <expression> <input>
+  select-org-elements [options] <expression> <input>
   select-org-elements --help (-h, -?)
+
+Options:
+  --print=s
+  --count
 _
         exit 0;
     },
     'print=s' => sub {
         $Opts{print} = $_[1];
     },
+    'count' => sub {
+        $Opts{count} = 1;
+    },
 ) or die "Error in GetOptions\n";
 
 my $expr = shift or die "Please specify CSel expression\n";
+
+# parse first so we can exit early without having to read the input
+parse_csel($expr) or die "Invalid CSel expression '$expr'\n";
 
 my $input = [<>];
 close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
@@ -45,7 +55,12 @@ my @res = csel(
     $expr,
     $doc);
 
-if ($Opts{print} eq 'text-and-children-text') {
+# don't include the root node itself
+@res = grep { ref($_) ne ref($doc) } @res;
+
+if ($Opts{count}) {
+    print ~~@res, "\n";
+} elsif ($Opts{print} eq 'text-and-children-text') {
     print $_->as_string, $_->children_as_text for @res;
 } elsif ($Opts{print} eq 'dump') {
     require Org::Dump;
@@ -70,6 +85,26 @@ if ($Opts{print} eq 'text-and-children-text') {
 This script selects Org document nodes using CSel, much like how CSS selector
 selects elements from HTML document. It then invokes
 
+
+=head1 OPTIONS
+
+=over
+
+=item * --print=s
+
+Specify how to print each matching element. The default is C<text>, which is to
+print the result of each element's C<as_string()> method. Other valid values
+include: C<text-and-children-text> (print the result of each element's
+C<as_string()> as well as C<children_as_string()>), C<dump> (dump each element
+using L<Org::Dump>).
+
+See also: C<--count>.
+
+=item * --count
+
+Instead of printing each element, return the number of matching elements.
+
+=back
 
 =head1 SEE ALSO
 
