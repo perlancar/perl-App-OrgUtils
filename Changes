@@ -1,5 +1,13 @@
 Revision history for App-OrgUtils
 
+0.40    2016-03-24 (PERLANCAR)
+
+	- stat-org-document: Report number of objects at each level, tree
+	  depth.
+
+	- Add logging (time select).
+
+
 0.39    2016-03-24 (PERLANCAR)
 
         - select-org-elements: more tweaks (add --version, add shortcut options
