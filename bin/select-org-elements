@@ -31,10 +31,10 @@ Options:
 _
         exit 0;
     },
-    'print=s' => sub {
+    'print|p=s' => sub {
         $Opts{print} = $_[1];
     },
-    'count' => sub {
+    'count|c' => sub {
         $Opts{count} = 1;
     },
 ) or die "Error in GetOptions\n";
