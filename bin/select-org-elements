@@ -24,11 +24,16 @@ GetOptions(
 Usage:
   select-org-elements [options] <expression> <input>
   select-org-elements --help (-h, -?)
+  select-org-elements --version (-v)
 
 Options:
-  --print=s
-  --count
+  --print=s, -p
+  --count, -c
 _
+        exit 0;
+    },
+    'version|v' => sub {
+        say "select-org-elements version ", ($main::VERSION // 'dev');
         exit 0;
     },
     'print|p=s' => sub {
@@ -96,7 +101,7 @@ selects elements from HTML document. It then invokes
 
 =over
 
-=item * --print=s
+=item * --print=s, -p
 
 Specify how to print each matching element. The default is C<text>, which is to
 print the result of each element's C<as_string()> method. Other valid values
@@ -106,7 +111,7 @@ using L<Org::Dump>).
 
 See also: C<--count>.
 
-=item * --count
+=item * --count, -c
 
 Instead of printing each element, return the number of matching elements.
 
