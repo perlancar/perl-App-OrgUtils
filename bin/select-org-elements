@@ -13,6 +13,7 @@ use Code::Includable::Tree::NodeMethods;
 use Data::CSel qw(parse_csel csel);
 use Getopt::Long::EvenLess;
 use Org::Parser;
+use Time::HiRes qw(time);
 
 my %Opts = (
     print => 'text',
@@ -54,12 +55,15 @@ close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
 
 my $doc = Org::Parser->new->parse($input);
 
+my $time0 = time();
 my @res = csel(
     {
         class_prefixes => ['Org::Element'],
     },
     $expr,
     Code::Includable::Tree::NodeMethods::descendants($doc));
+my $time1 = time();
+$log->tracef("Select time: %.3fs", $time1-$time0);
 
 if ($Opts{count}) {
     print ~~@res, "\n";
