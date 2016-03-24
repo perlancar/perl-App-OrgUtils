@@ -59,14 +59,22 @@ my @res = csel(
 if ($Opts{count}) {
     print ~~@res, "\n";
 } elsif ($Opts{print} eq 'text-and-children-text') {
-    print $_->as_string, $_->children_as_string for @res;
+    for (@res) {
+        my $str = $_->as_string . $_->children_as_string;
+        print $str;
+        print "\n" unless $str =~ /\R\z/;
+    }
 } elsif ($Opts{print} eq 'dump') {
     require Org::Dump;
     for (@res) {
         print Org::Dump::dump_element($_);
     }
 } else {
-    print $_->as_string for @res;
+    for (@res) {
+        my $str = $_->as_string;
+        print $str;
+        print "\n" unless $str =~ /\R\z/;
+    }
 }
 
 1;
