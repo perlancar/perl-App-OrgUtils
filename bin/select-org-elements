@@ -9,6 +9,7 @@ use warnings;
 use open qw(:std :utf8);
 use Log::Any::IfLOG qw($log);
 
+use Code::Includable::Tree::NodeMethods;
 use Data::CSel qw(parse_csel csel);
 use Getopt::Long::EvenLess;
 use Org::Parser;
@@ -53,10 +54,7 @@ my @res = csel(
         class_prefixes => ['Org::Element'],
     },
     $expr,
-    $doc);
-
-# don't include the root node itself
-@res = grep { ref($_) ne ref($doc) } @res;
+    Code::Includable::Tree::NodeMethods::descendants($doc));
 
 if ($Opts{count}) {
     print ~~@res, "\n";
