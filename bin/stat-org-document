@@ -21,12 +21,17 @@ my %stats = (
     num_objects => 0,
     input_size_in_lines      => ~~@$input,
     input_size_in_characters => sum(map {length} @$input),
+    tree_depth => 0,
 );
 
 $doc->walk(
     sub {
-        my $el = shift;
+        my ($el, $level) = @_;
         $stats{num_objects}++;
+
+        $stats{"num_objects_at_level_$level"}++;
+        $stats{tree_depth} = $level if $stats{tree_depth} < $level;
+
         my $cl = ref($el); $cl =~ s/^Org::Element:://;
         $stats{"num_objects_of_type_${cl}"}++;
         if ($cl eq 'Headline') {
