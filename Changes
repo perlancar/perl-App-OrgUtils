@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.39    2016-03-24 (PERLANCAR)
+
+        - select-org-elements: more tweaks (add --version, add shortcut options
+          -c and -p for `--count` and `--print` respectively, fix newline
+          behavior when printing matching elements).
+
+
 0.38    2016-03-24 (PERLANCAR)
 
         - select-org-elements: add --count option, documentation, fixes.
