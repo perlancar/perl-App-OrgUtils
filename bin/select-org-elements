@@ -59,7 +59,7 @@ my @res = csel(
 if ($Opts{count}) {
     print ~~@res, "\n";
 } elsif ($Opts{print} eq 'text-and-children-text') {
-    print $_->as_string, $_->children_as_text for @res;
+    print $_->as_string, $_->children_as_string for @res;
 } elsif ($Opts{print} eq 'dump') {
     require Org::Dump;
     for (@res) {
