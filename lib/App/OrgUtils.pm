@@ -169,4 +169,6 @@ following are the included scripts:
 
 L<Org::Parser>
 
+L<orgsel> in L<App::orgsel>
+
 =cut
