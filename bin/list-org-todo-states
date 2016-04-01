@@ -32,8 +32,8 @@ sub list_org_todo_states {
     my %args = @_;
 
     my $tz = $args{time_zone} // $ENV{TZ} // "UTC";
-    my %docs = App::OrgUtils::_load_org_files_with_cache(
-        $args{files}, $args{cache_dir}, {time_zone=>$tz});
+    my %docs = App::OrgUtils::_load_org_files(
+        $args{files}, {time_zone=>$tz});
 
     my @res;
     my %seen;

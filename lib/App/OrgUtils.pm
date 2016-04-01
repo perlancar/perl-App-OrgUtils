@@ -19,17 +19,6 @@ our %common_args1 = (
         'x.schema.element_entity' => 'filename',
         'x.name.is_plural' => 1,
     },
-    cache_dir => {
-        schema => ['str*'],
-        summary => 'Cache Org parse result',
-        description => <<'_',
-
-Since Org::Parser can spend some time to parse largish Org files, this is an
-option to store the parse result. Caching is turned on if this argument is set.
-
-_
-        'x.schema.entity' => 'dirname',
-    },
     time_zone => {
         schema => ['str'],
         summary => 'Will be passed to parser\'s options',
@@ -61,8 +50,8 @@ our $_complete_state = sub {
     # read org
     return unless $args->{files} && @{ $args->{files} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
-    my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+    my %docs = App::OrgUtils::_load_org_files(
+        [grep {-f} @{ $args->{files} }], {time_zone=>$tz});
 
     # get todo states
     my @states;
@@ -93,8 +82,8 @@ our $_complete_priority = sub {
     # read org
     return unless $args->{files} && @{ $args->{files} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
-    my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+    my %docs = App::OrgUtils::_load_org_files(
+        [grep {-f} @{ $args->{files} }], {time_zone=>$tz});
 
     # get priorities
     my @prios;
@@ -125,8 +114,8 @@ our $_complete_tags = sub {
     # read org
     return unless $args->{files} && @{ $args->{files} };
     my $tz = $args->{time_zone} // $ENV{TZ} // "UTC";
-    my %docs = App::OrgUtils::_load_org_files_with_cache(
-        [grep {-f} @{ $args->{files} }], $args->{cache_dir}, {time_zone=>$tz});
+    my %docs = App::OrgUtils::_load_org_files(
+        [grep {-f} @{ $args->{files} }], {time_zone=>$tz});
 
     # collect tags
     my @tags;
@@ -144,29 +133,20 @@ our $_complete_tags = sub {
     Complete::Util::complete_array_elem(array=>\@tags, word=>$args{word});
 };
 
-sub _load_org_files_with_cache {
+sub _load_org_files {
     require Cwd;
     require Digest::MD5;
 
-    my ($files, $cache_dir, $opts0) = @_;
+    my ($files, $opts0) = @_;
     $files or die "Please specify files";
 
     my $orgp = Org::Parser->new;
     my %docs;
     for my $file (@$files) {
-        my $cf;
-        if ($cache_dir) {
-            my $afile = Cwd::abs_path($file) or die "Can't find $file";
-            my $afilel = $afile; $afilel =~ s!.+/!!;
-            $cf = "$cache_dir/$afilel.".Digest::MD5::md5_hex($afile).
-                ".storable";
-            $log->debug("Parsing file $file (cache file $cf) ...");
-        } else {
-            $log->debug("Parsing file $file ...");
-        }
-
         my $opts = { %{$opts0 // {}} };
-        $opts->{cache_file} = $cf if $cf;
+        # by default turn on cache, unless user specifically has
+        # PERL_ORG_PARSER_CACHE set to 0.
+        $opts->{cache} = 1 if $ENV{PERL_ORG_PARSER_CACHE} // 1;
         $docs{$file} = $orgp->parse_file($file, $opts);
     }
 

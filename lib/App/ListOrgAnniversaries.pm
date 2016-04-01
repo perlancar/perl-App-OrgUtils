@@ -227,8 +227,8 @@ sub list_org_anniversaries {
     my $orgp = Org::Parser->new;
     my @res;
 
-    my %docs = App::OrgUtils::_load_org_files_with_cache(
-        $files, $args{cache_dir}, {time_zone=>$tz});
+    my %docs = App::OrgUtils::_load_org_files(
+        $files, {time_zone=>$tz});
     for my $file (keys %docs) {
         my $doc = $docs{$file};
         $doc->walk(

@@ -1,5 +1,17 @@
 Revision history for App-OrgUtils
 
+0.41    2016-04-01 (PERLANCAR) (unreleased)
+
+        - [Removed] select-org-elements is renamed to 'orgsel' and spun off to
+          its own distro (App-orgsel).
+
+        - [Removed] Remove 'cache_dir' option because Org::Parser 0.47 uses a
+          default cache directory (~/.cache/perl-org-parser). Caching can be
+          enabled by setting PERL_ORG_PARSER_CACHE=1, but App::OrgUtils enables
+          this by default unless user specifically turns off caching using
+          PERL_ORG_PARSER_CACHE=0.
+
+
 0.40    2016-03-24 (PERLANCAR)
 
 	- stat-org-document: Report number of objects at each level, tree
@@ -182,7 +194,9 @@ Revision history for App-OrgUtils
 
         - list-org-headlines: Add 'today' option.
 
-        - list-org-headlines: Add 'cache_dir' option.
+        - list-org-headlines: Add 'cache_dir' option. UPDATE: this option has
+          been removed because Org::Parser 0.47+ selects a default cache
+          directory.
 
 
 0.13    2012-06-13 (SHARYANTO)
