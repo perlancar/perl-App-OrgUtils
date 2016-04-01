@@ -1,6 +1,6 @@
 Revision history for App-OrgUtils
 
-0.41    2016-04-01 (PERLANCAR) (unreleased)
+0.41    2016-04-01 (PERLANCAR)
 
         - [Removed] select-org-elements is renamed to 'orgsel' and spun off to
           its own distro (App-orgsel).
