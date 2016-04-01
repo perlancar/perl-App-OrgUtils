@@ -77,11 +77,10 @@ $SPEC{count_org_todos} = do {
 sub count_org_todos {
     my %args = @_;
 
-    my $res = count_org_headlines(
+    count_org_headlines(
         %args,
         is_todo => 1,
     );
-    ~~@$res;
 }
 
 1;
