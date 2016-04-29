@@ -226,8 +226,23 @@ _
             description => <<'_',
 
 If set to true, instead of returning a list, this function will return a hash of
-lists, keyed by tag: {tag1: [hl1, hl2, ...], tag2: [...]}. Note that some
-headlines might be listed more than once if it has several tags.
+lists, keyed by tag: {tag1: [hl1, hl2, ...], tag2: [...]}. Note that a headline
+that has several tags will only be listed under its first tag, unless when
+`allow_duplicates` is set to true, in which case the headline will be listed
+under each of its tag.
+
+_
+            tags => ['format'],
+        },
+        allow_duplicates => {
+            schema => ['bool'],
+            summary => 'Whether to allow headline to be listed more than once',
+            description => <<'_',
+
+This is only relevant when `group_by_tags` is on. Normally when a headline has
+several tags, it will only be listed under its first tag. But when this option
+is turned on, the headline will be listed under each of its tag (which mean a
+single headline will be listed several times).
 
 _
             tags => ['format'],
@@ -361,6 +376,8 @@ sub list_org_headlines {
 
     my $res;
     if ($args{group_by_tags}) {
+        my %seen;
+
         # cache tags in each @res element's [3] element
         for (@res) { $_->[3] = [$_->[2]->get_tags] }
         my @tags = sort(uniq(map {@{$_->[3]}} @res));
@@ -373,6 +390,7 @@ sub list_org_headlines {
                 } else {
                     next unless $tag ~~ @{$_->[3]};
                 }
+                next if !$args{allow_duplicates} && $seen{$_->[0]}++;
                 push @{ $res->{$tag} }, $_->[0];
             }
         }
