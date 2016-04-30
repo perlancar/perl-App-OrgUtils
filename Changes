@@ -1,5 +1,11 @@
 Revision history for App-OrgUtils
 
+0.42    2016-04-30 (PERLANCAR)
+
+	- ListOrgHeadlines: add option 'allow_duplicates' and default it to
+	  off.
+
+
 0.41    2016-04-01 (PERLANCAR)
 
         - [Removed] select-org-elements is renamed to 'orgsel' and spun off to
