@@ -1,0 +1,150 @@
+#!/usr/bin/env perl
+
+use 5.010001;
+use strict;
+use warnings;
+
+use Scalar::Util qw(refaddr);
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+sub _move_item {
+    my ($item, $done_doc) = @_;
+
+    my @parents;
+    my $parent = $item;
+    while ($parent = $parent->parent) {
+        unshift @parents, $parent;
+    }
+    shift @parents; # skip root document
+
+    # recreate the structure in $done_doc
+    my $done_parent = $done_doc;
+    for my $parent (@parents) {
+        my $title = $parent->title->as_string;
+        $title =~ s/\s+\z//;
+        my $found;
+        for my $el (@{ $done_parent->children }) {
+            #say "D:compare <", $el->title->as_string, "> vs <", $title, ">";
+            if ($el->isa("Org::Element::Headline") &&
+                    $el->title->as_string eq $title) {
+                $found = $el;
+                last;
+            }
+        }
+        if ($found) {
+            $done_parent = $found;
+        } else {
+            my $new_p = Org::Element::Headline->new(
+                document => $done_doc,
+                parent => $done_parent,
+                level => $parent->level,
+            );
+            $new_p->title(Org::Element::Text->new(
+                document => $done_doc,
+                parent => $new_p,
+                text => $title,
+            ));
+            say "D:creating new headline in done doc: $title";
+            push @{ $done_parent->children }, $new_p;
+            $done_parent = $new_p;
+        }
+    }
+    #say "D:done_parent=<$done_parent>";
+    $done_parent->{children} //= [];
+    push @{ $done_parent->children }, $item;
+
+    # remove from undone
+    my $i = -1;
+    for my $el (@{ $item->parent->children }) {
+        $i++;
+        if (refaddr($el) eq refaddr($item)) {
+            splice(@{ $item->parent->children }, $i, 1);
+            last;
+        }
+    }
+}
+
+$SPEC{move_done_todos} = {
+    v => 1.1,
+    summary => 'Move done todos from one Org file to another',
+    description => <<'_',
+
+This utility can move done todos from one file to another. One typical use-case
+is to archive done todo items from your todo file. The structure in the original
+file will be maintained. For example, suppose you have this file:
+
+    * category 1 [0/0]
+    ** TODO one
+    ** DONE two
+    ** DONE three
+    * category 2 [0/0]
+    ** TODO four
+    * category 3 [0/0]
+    ** DONE five
+
+then when the done todos are moved, the target file will be something like this
+(existing items in the target file are maintained):
+
+    * category 1 [2/2]
+    ** DONE two
+    ** DONE three
+    * category 3 [0/0]
+    ** DONE five
+
+and the original file will become:
+
+    * category 1 [0/0]
+    ** TODO one
+    * category 2 [0/0]
+    ** TODO four
+    * category 3 [0/0]
+
+_
+    args => {
+        undone_file => {
+            schema => 'str*', # XXX filename
+            req => 1,
+            pos => 0,
+        },
+        done_file => {
+            summary => 'Will print to stdout if unspecified',
+            schema => 'str*', # XXX filename
+            pos => 1,
+        },
+    },
+};
+sub move_done_todos {
+    require Org::Document;
+    require Org::Parser;
+    require Path::Tiny;
+
+    my %args = @_;
+
+    my $orgp = Org::Parser->new;
+
+    my $undone_doc = $orgp->parse_file($args{undone_file});
+    my $done_doc   = defined $args{done_file} && (-f $args{done_file}) ?
+        $orgp->parse_file($args{done_file}) :
+        Org::Document->new(from_string => '');
+
+    $undone_doc->walk(
+        sub {
+            my $el = shift;
+            return unless $el->isa("Org::Element::Headline") &&
+                $el->is_todo && $el->is_done;
+            say "D:found done todo: ", $el->title->as_string;
+            _move_item($el, $done_doc);
+        });
+
+    Path::Tiny->new($args{undone_file})->spew($undone_doc->as_string);
+    if (defined $args{done_file}) {
+        Path::Tiny->new($args{done_file})  ->spew($done_doc  ->as_string);
+        return [200, "OK"];
+    } else {
+        return [200, "OK", $done_doc->as_string, {"cmdline.skip_format"=>1}];
+    }
+}
+
+Perinci::CmdLine::Any->new(url => '/main/move_done_todos')->run;
