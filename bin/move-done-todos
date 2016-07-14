@@ -3,6 +3,7 @@
 use 5.010001;
 use strict;
 use warnings;
+use Log::Any::IfLOG '$log';
 
 use Scalar::Util qw(refaddr);
 use Perinci::CmdLine::Any;
@@ -26,9 +27,11 @@ sub _move_item {
         $title =~ s/\s+\z//;
         my $found;
         for my $el (@{ $done_parent->children }) {
-            #say "D:compare <", $el->title->as_string, "> vs <", $title, ">";
+            next unless $el->isa("Org::Element::Headline");
+            my $el_title = $el->title->as_string;
+            $el_title =~ s/\s+\z//;
             if ($el->isa("Org::Element::Headline") &&
-                    $el->title->as_string eq $title) {
+                    $el_title eq $title) {
                 $found = $el;
                 last;
             }
@@ -40,18 +43,19 @@ sub _move_item {
                 document => $done_doc,
                 parent => $done_parent,
                 level => $parent->level,
+                children => [],
             );
             $new_p->title(Org::Element::Text->new(
                 document => $done_doc,
                 parent => $new_p,
                 text => $title,
+                children => [],
             ));
-            say "D:creating new headline in done doc: $title";
+            $log->tracef("Creating new headline in done doc: %s", $title);
             push @{ $done_parent->children }, $new_p;
             $done_parent = $new_p;
         }
     }
-    #say "D:done_parent=<$done_parent>";
     $done_parent->{children} //= [];
     push @{ $done_parent->children }, $item;
 
@@ -134,13 +138,13 @@ sub move_done_todos {
             my $el = shift;
             return unless $el->isa("Org::Element::Headline") &&
                 $el->is_todo && $el->is_done;
-            say "D:found done todo: ", $el->title->as_string;
+            $log->infof("Found done todo: %s", $el->title->as_string);
             _move_item($el, $done_doc);
         });
 
-    Path::Tiny->new($args{undone_file})->spew($undone_doc->as_string);
+    Path::Tiny->new($args{undone_file})->spew_utf8($undone_doc->as_string);
     if (defined $args{done_file}) {
-        Path::Tiny->new($args{done_file})  ->spew($done_doc  ->as_string);
+        Path::Tiny->new($args{done_file})->spew_utf8($done_doc->as_string);
         return [200, "OK"];
     } else {
         return [200, "OK", $done_doc->as_string, {"cmdline.skip_format"=>1}];
