@@ -1,5 +1,10 @@
 Revision history for App-OrgUtils
 
+0.43    2016-07-14 (PERLANCAR)
+
+	- Add utility: move-done-todos.
+
+
 0.42    2016-04-30 (PERLANCAR)
 
 	- ListOrgHeadlines: add option 'allow_duplicates' and default it to

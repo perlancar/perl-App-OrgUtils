@@ -152,3 +152,6 @@ sub move_done_todos {
 }
 
 Perinci::CmdLine::Any->new(url => '/main/move_done_todos')->run;
+
+# ABSTRACT:
+# PODNAME:
