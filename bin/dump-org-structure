@@ -15,7 +15,9 @@ use Org::Dump;
 my $input = [<>];
 close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
 
-my $doc = Org::Parser->new->parse($input);
+my $doc = Org::Parser->new->parse($input, {
+    ignore_unknown_settings => 1,
+});
 print Org::Dump::dump_element($doc);
 
 1;
