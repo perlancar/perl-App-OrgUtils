@@ -1,5 +1,12 @@
 Revision history for App-OrgUtils
 
+0.45    2016-12-24 (PERLANCAR)
+
+	- Add scripts: org-to-html (moved from Org-To-HTML),
+	  org-to-html-wordpress (moved from Org-To-HTML-WordPress dists),
+	  org2html, org2html-wp.
+
+
 0.44    2016-11-06 (PERLANCAR)
 
 	- dump-org-structure: Add option: --ignore-unknown-settings.
