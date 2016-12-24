@@ -1,0 +1,78 @@
+#!perl
+
+use 5.010;
+use strict;
+use warnings;
+
+use Perinci::CmdLine::Any;
+
+our %SPEC;
+
+$SPEC{app} = {
+    v => 1.1,
+    summary => 'Convert Org document to HTML (WordPress variant)',
+    args => {
+        input_filename => {
+            schema => 'filename',
+            default => '-',
+            req => 1,
+            pos => 0,
+            cmdline_aliases => {i=>{}},
+        },
+        title => {
+            summary => 'HTML title',
+            schema => 'str*',
+        },
+        naked => {
+            summary => "Don't wrap HTML with HTML/HEAD/BODY elements",
+            schema => ['bool', is=>1],
+        },
+    },
+};
+sub app {
+    my %args = @_;
+
+    my %oth_args; # args to feed to org_to_html function
+    if ($args{input_filename} eq '-') {
+        $oth_args{source_str} = do {
+            local $/;
+            binmode STDIN, ":utf8";
+            scalar <STDIN>;
+        };
+    } else {
+        $oth_args{source_file} = $args{input_filename};
+    }
+
+    $oth_args{ignore_unknown_settings} = 1;
+    $oth_args{naked} = $args{naked};
+    $oth_args{html_title} = $args{title} if defined $args{title};
+
+    require Org::To::HTML::WordPress;
+    Org::To::HTML::WordPress::org_to_html_wordpress(%oth_args);
+}
+
+Perinci::CmdLine::Any->new(
+    url => '/main/app',
+)->run;
+
+# ABSTRACT:
+# PODNAME:
+
+=head1 DESCRIPTION
+
+This is a more user-friendly CLI script for L<Org::To::HTML::WordPress> compared
+to L<org-to-html-wordpress> which is a direct CLI version of the function
+C<org_to_html_wordpress>.
+
+
+=head1 SEE ALSO
+
+L<org-to-html-wordpress>
+
+L<org2html>, L<org-to-html>
+
+L<Org::To::HTML::WordPress>
+
+L<Org::To::HTML>
+
+L<Org::Parser>
