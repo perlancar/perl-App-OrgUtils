@@ -22,7 +22,7 @@ $SPEC{list_org_todo_states} = {
         },
         done => {
             summary => 'Only show done states',
-            'summary.alt.bool.neg' => 'Only show undone states',
+            'summary.alt.bool.not' => 'Only show undone states',
             schema => 'bool',
             tags => ['category:filtering'],
         },
