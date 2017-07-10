@@ -7,7 +7,7 @@ use 5.010;
 use strict;
 use warnings;
 use open qw(:std :utf8);
-use Log::Any::IfLOG qw($log);
+use Log::ger;
 
 use Org::Parser;
 use Org::Dump;

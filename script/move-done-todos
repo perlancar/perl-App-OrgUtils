@@ -3,7 +3,7 @@
 use 5.010001;
 use strict;
 use warnings;
-use Log::Any::IfLOG '$log';
+use Log::ger;
 
 use Scalar::Util qw(refaddr);
 use Perinci::CmdLine::Any;
@@ -51,7 +51,7 @@ sub _move_item {
                 text => $title,
                 children => [],
             ));
-            $log->tracef("Creating new headline in done doc: %s", $title);
+            log_trace("Creating new headline in done doc: %s", $title);
             push @{ $done_parent->children }, $new_p;
             $done_parent = $new_p;
         }
@@ -138,7 +138,7 @@ sub move_done_todos {
             my $el = shift;
             return unless $el->isa("Org::Element::Headline") &&
                 $el->is_todo && $el->is_done;
-            $log->infof("Found done todo: %s", $el->title->as_string);
+            log_info("Found done todo: %s", $el->title->as_string);
             _move_item($el, $done_doc);
         });
 

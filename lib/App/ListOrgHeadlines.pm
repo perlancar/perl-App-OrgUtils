@@ -7,7 +7,7 @@ use 5.010001;
 use strict;
 use warnings;
 use experimental 'smartmatch';
-use Log::Any::IfLOG qw($log);
+use Log::ger;
 
 use App::OrgUtils;
 use Cwd qw(abs_path);
