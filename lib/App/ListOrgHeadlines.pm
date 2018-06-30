@@ -109,7 +109,6 @@ sub _process_hl {
             } else {
                 die "Can't understand unit '$unit' in timestamp's ".
                     "warning period: " . $ats->as_string;
-                return;
             }
             $met++ if DateTime->compare($dt, $today) <= 0;
         }

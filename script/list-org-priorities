@@ -89,7 +89,7 @@ sub list_org_priorities {
     [200, "OK", \@res, $resmeta];
 }
 
-binmode STDOUT, ":utf8";
+binmode STDOUT, ":encoding(utf8)";
 Perinci::CmdLine::Any->new(url=>'/main/list_org_priorities')->run;
 
 1;

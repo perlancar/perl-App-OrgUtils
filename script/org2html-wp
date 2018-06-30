@@ -36,7 +36,7 @@ sub app {
     if ($args{input_filename} eq '-') {
         $oth_args{source_str} = do {
             local $/;
-            binmode STDIN, ":utf8";
+            binmode STDIN, ":encoding(utf8)";
             scalar <STDIN>;
         };
     } else {
