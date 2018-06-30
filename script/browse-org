@@ -1,0 +1,28 @@
+#!perl
+
+# DATE
+# VERSION
+
+system "org2html", "--browser", @ARGV;
+
+1;
+# ABSTRACT: Render Org document as HTML then show in browser
+# PODNAME:
+
+=head1 SYNOPSIS
+
+ % browse-org todo.org
+
+
+=head1 DESCRIPTION
+
+This is a shortcut for:
+
+ % org2html --browse ...
+
+
+=head1 SEE ALSO
+
+L<org2html>
+
+=cut
