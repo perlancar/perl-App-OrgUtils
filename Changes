@@ -1,3 +1,10 @@
+0.471   2019-12-30  Released-By: PERLANCAR
+
+	- Add utility: dump-org-structure-tiny.
+
+        - Simplify many scripts by turning off config/env reading.
+
+
 0.470   2018-06-30  Released-By: PERLANCAR
 
 	- org2html: Add --browser option.
