@@ -1,9 +1,11 @@
 #!perl
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
-use 5.010;
+use 5.010001;
 use strict;
 use warnings;
 use open qw(:std :utf8);
