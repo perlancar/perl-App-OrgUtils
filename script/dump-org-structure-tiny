@@ -12,13 +12,13 @@ use open qw(:std :utf8);
 use Log::ger;
 
 use Org::Parser::Tiny;
-use Tree::Dump;
+use Org::Dump;
 
 my $input = [<>];
 close STDIN; close ARGV; # so perl doesn't add ", <> line xx" upon dying
 
 my $doc = Org::Parser::Tiny->new->parse($input);
-td($doc);
+print Org::Dump::dump_element($doc);
 
 1;
 # ABSTRACT: Dump Org document structure (using Org::Parser::Tiny)
@@ -48,7 +48,7 @@ will output something like:
 =head1 DESCRIPTION
 
 This script parses input using L<Org::Parser::Tiny> and dump the structure using
-L<Tree::Dump>. This script is mostly used for debugging.
+L<Org::Dump>. This script is mostly used for debugging.
 
 
 =head1 SEE ALSO
