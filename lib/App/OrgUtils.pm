@@ -1,6 +1,8 @@
 package App::OrgUtils;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;
@@ -12,7 +14,7 @@ use Org::Parser;
 
 our %common_args1 = (
     files => {
-        schema => ['array*' => of => 'str*', min_len=>1],
+        schema => ['array*' => of => 'filename*', min_len=>1],
         req    => 1,
         pos    => 0,
         greedy => 1,
@@ -20,14 +22,13 @@ our %common_args1 = (
         'x.name.is_plural' => 1,
     },
     time_zone => {
-        schema => ['str'],
+        schema => ['date::tz_name'],
         summary => 'Will be passed to parser\'s options',
         description => <<'_',
 
 If not set, TZ environment variable will be picked as default.
 
 _
-        'x.schema.entity' => 'timezone',
     },
 );
 
