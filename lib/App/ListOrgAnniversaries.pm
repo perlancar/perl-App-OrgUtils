@@ -211,6 +211,8 @@ _
     },
 };
 sub list_org_anniversaries {
+    require Org::Parser;
+
     my %args = @_;
 
     my $sort  = $args{sort};
