@@ -30,6 +30,7 @@ $SPEC{app} = {
         browser => {
             summary => 'Instead of returning the HTML, show it in browser',
             schema => ['bool*', is=>1],
+            cmdline_aliases => {b=>{}},
         },
     },
 };
