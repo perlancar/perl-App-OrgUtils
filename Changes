@@ -1,10 +1,22 @@
-0.475   2020-04-27  Released-By: PERLANCAR; Urgency: low
+0.477   2020-04-27  Released-By: PERLANCAR; Urgency: low
 
         - No functional changes.
 
         - [build] Rebuild with newer Perinci::CmdLine::POD to render a more
           complete usage line of Perinci::CmdLine scripts in POD (now all
           options are listed, not just '[options]').
+
+
+0.476   2020-04-18  Released-By: PERLANCAR; Urgency: medium
+
+	- [incompatible change] org2html by default now uses the emacs
+	  backend; you have to specify --backend Org::To::HTML to use the
+	  other backend.
+
+
+0.475   2020-04-18  Released-By: PERLANCAR; Urgency: medium
+
+	- [ux] org2html: Add -b as shortcut for --browser.
 
 
 0.474   2020-04-12  Released-By: PERLANCAR; Urgency: medium
