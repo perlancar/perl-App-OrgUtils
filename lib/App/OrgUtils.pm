@@ -22,7 +22,6 @@ our %common_args1 = (
         req    => 1,
         pos    => 0,
         greedy => 1,
-        'x.schema.element_entity' => 'filename',
         'x.name.is_plural' => 1,
     },
     time_zone => {
