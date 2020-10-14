@@ -111,6 +111,8 @@ $SPEC{move_done_todos} = {
     summary => 'Move done todos from one Org file to another',
     description => <<'_',
 
+**WARNING: PLEASE BACKUP OR COMMIT YOUR UNSAVED WORK TO YOUR TODO FILE BEFORE USING THIS UTILITY. THIS UTILITY MODIFIES YOUR TODO FILE.**.
+
 This utility can move done todos from one file to another. One typical use-case
 is to archive done todo items from your todo file. The structure in the original
 file will be maintained. For example, suppose you have this file:
