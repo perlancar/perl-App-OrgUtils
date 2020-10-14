@@ -1,6 +1,8 @@
 package App::ListOrgHeadlines;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010001;
@@ -208,12 +210,16 @@ _
             tags => ['format'],
         },
         has_tags => {
+            'x.name.is_plural' => 1,
+            'x.name.singular' => 'has_tag',
             schema => ['array', of=>'str*'],
             summary => 'Only show headlines that have the specified tags',
             tags => ['filter'],
             element_completion => $App::OrgUtils::_complete_tags,
         },
         lacks_tags => {
+            'x.name.is_plural' => 1,
+            'x.name.singular' => 'lacks_tag',
             schema => ['array', of=>'str*'],
             summary=> 'Only show headlines that don\'t have the specified tags',
             tags => ['filter'],
