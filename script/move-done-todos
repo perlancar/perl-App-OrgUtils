@@ -165,8 +165,38 @@ _
         },
     },
     features => {
-        dry_run => 1,
+        dry_run => {default=>1},
     },
+    examples => [
+        {
+            summary => 'Strip done items from todo.org into done.org (simulation mode, the default mode)',
+            src => '[[prog]] todo.org done.org',
+            src_plang => 'bash',
+            test => 0,
+            'x.doc.show_result' => 0,
+        },
+        {
+            summary => 'Strip done items from todo.org into done.org',
+            src => '[[prog]] todo.org done.org --no-dry-run',
+            src_plang => 'bash',
+            test => 0,
+            'x.doc.show_result' => 0,
+        },
+        {
+            summary => 'Strip done items from todo.org and put it into a new file done1.org',
+            src => '[[prog]] todo.org --no-dry-run >done1.org',
+            src_plang => 'bash',
+            test => 0,
+            'x.doc.show_result' => 0,
+        },
+        {
+            summary => 'Strip done items from todo.org and print it to stdout (NOTE: you might want to save the stdout output because they are stripped from todo.org)',
+            src => '[[prog]] todo.org --no-dry-run',
+            src_plang => 'bash',
+            test => 0,
+            'x.doc.show_result' => 0,
+        },
+    ],
 };
 sub move_done_todos {
     require Org::Document;
