@@ -106,7 +106,7 @@ sub _move_item {
     }
 }
 
-$SPEC{move_done_todos} = {
+$SPEC{move_done_org_todos} = {
     v => 1.1,
     summary => 'Move done todos from one Org file to another',
     description => <<'_',
@@ -198,7 +198,7 @@ _
         },
     ],
 };
-sub move_done_todos {
+sub move_done_org_todos {
     require Org::Document;
     require Org::Parser;
     require Path::Tiny;
@@ -244,7 +244,7 @@ sub move_done_todos {
 }
 
 Perinci::CmdLine::Any->new(
-    url => '/main/move_done_todos',
+    url => '/main/move_done_org_todos',
     log => 1,
 )->run;
 
