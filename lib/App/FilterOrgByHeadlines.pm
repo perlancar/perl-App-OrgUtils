@@ -1,6 +1,8 @@
 package App::FilterOrgByHeadlines;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;

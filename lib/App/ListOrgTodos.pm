@@ -1,6 +1,8 @@
 package App::ListOrgTodos;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;

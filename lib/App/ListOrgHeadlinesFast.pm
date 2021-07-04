@@ -1,6 +1,8 @@
 package App::ListOrgHeadlinesFast;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use 5.010;
