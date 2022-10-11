@@ -1,13 +1,13 @@
 package App::FilterOrgByHeadlines;
 
+use 5.010;
+use strict;
+use warnings;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
-
-use 5.010;
-use strict;
-use warnings;
 
 our %SPEC;
 
@@ -18,7 +18,7 @@ sub _match {
     } elsif ($op =~ m!\A/(.*)/(i?)\z!) {
         my $re;
         # XXX possible arbitrary code execution
-        eval "\$re = qr/$1/$2";
+        eval "\$re = qr/$1/$2"; ## no critic: BuiltinFunctions::ProhibitStringyEval
         die if $@;
         return $hl =~ $re;
     } else {

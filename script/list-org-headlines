@@ -1,15 +1,15 @@
 #!perl
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010;
 use strict;
 use warnings;
 
 use Perinci::CmdLine::Any;
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 binmode STDOUT, ":encoding(utf8)";
 Perinci::CmdLine::Any->new(url=>'/App/ListOrgHeadlines/list_org_headlines')->run;

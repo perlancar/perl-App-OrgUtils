@@ -1,10 +1,5 @@
 package App::ListOrgHeadlines;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010001;
 use strict;
 use warnings;
@@ -15,10 +10,14 @@ use App::OrgUtils;
 use Cwd qw(abs_path);
 use DateTime;
 use Digest::MD5 qw(md5_hex);
+use Exporter 'import';
 use List::MoreUtils qw(uniq);
 
-require Exporter;
-our @ISA       = qw(Exporter);
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
 our @EXPORT_OK = qw(list_org_headlines);
 
 our %SPEC;

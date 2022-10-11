@@ -1,16 +1,16 @@
 package App::ListOrgHeadlinesFast;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010;
 use strict;
 use warnings;
 
 use App::FilterOrgByHeadlines;
 use Function::Fallback::CoreOrPP qw(clone);
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 our %SPEC;
 

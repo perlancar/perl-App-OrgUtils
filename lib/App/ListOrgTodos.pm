@@ -1,20 +1,19 @@
 package App::ListOrgTodos;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010;
 use strict;
 use warnings;
 use Log::ger;
 
 use App::ListOrgHeadlines qw(list_org_headlines);
+use Exporter 'import';
 use Perinci::Sub::Util qw(gen_modified_sub);
 
-require Exporter;
-our @ISA       = qw(Exporter);
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
 our @EXPORT_OK = qw(list_org_todos);
 
 our %SPEC;

@@ -1,10 +1,5 @@
 package App::OrgUtils;
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010;
 use strict;
 use warnings;
@@ -13,6 +8,11 @@ use Log::ger;
 use File::Slurper::Dash 'read_text';
 use Org::Parser::Tiny;
 use Sort::Sub;
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 our %SPEC;
 
@@ -56,13 +56,13 @@ our $_complete_state = sub {
     my %args = @_;
 
     # only return answer under CLI
-    return undef unless my $cmdline = $args{cmdline};
+    return unless my $cmdline = $args{cmdline};
     my $r = $args{r};
 
     # force read config
     $r->{read_config} = 1;
     my $res = $cmdline->parse_argv($r);
-    return undef unless $res->[0] == 200;
+    return unless $res->[0] == 200;
     my $args = $res->[2];
 
     # read org
@@ -88,13 +88,13 @@ our $_complete_priority = sub {
     my %args = @_;
 
     # only return answer under CLI
-    return undef unless my $cmdline = $args{cmdline};
+    return unless my $cmdline = $args{cmdline};
     my $r = $args{r};
 
     # force read config
     $r->{read_config} = 1;
     my $res = $cmdline->parse_argv($r);
-    return undef unless $res->[0] == 200;
+    return unless $res->[0] == 200;
     my $args = $res->[2];
 
     # read org
@@ -120,13 +120,13 @@ our $_complete_tags = sub {
     my %args = @_;
 
     # only return answer under CLI
-    return undef unless my $cmdline = $args{cmdline};
+    return unless my $cmdline = $args{cmdline};
     my $r = $args{r};
 
     # force read config
     $r->{read_config} = 1;
     my $res = $cmdline->parse_argv($r);
-    return undef unless $res->[0] == 200;
+    return unless $res->[0] == 200;
     my $args = $res->[2];
 
     # read org

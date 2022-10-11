@@ -1,15 +1,15 @@
 #!perl
 
-# AUTHORITY
-# DATE
-# DIST
-# VERSION
-
 use 5.010;
 use strict;
 use warnings;
 
 use Org::Parser;
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 my $org = Org::Parser->new;
 my $doc;
