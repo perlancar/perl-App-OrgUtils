@@ -21,6 +21,7 @@ $SPEC{list_org_todo_states} = {
         %App::OrgUtils::common_args1,
         detail => {
             schema => 'bool',
+            cmdline_aliases => {l=>{}},
         },
         done => {
             summary => 'Only show done states',

@@ -21,6 +21,7 @@ $SPEC{list_org_priorities} = {
         %App::OrgUtils::common_args1,
         detail => {
             schema => 'bool',
+            cmdline_aliases => {l=>{}},
         },
         min => {
             summary => 'Only show priorities higher than or equal to this',
