@@ -26,7 +26,7 @@ my $today;
 my $yest;
 
 sub _process_hl {
-    my ($file, $hl, $args, $res) = @_;
+    my ($file, $hl, $args, $res, $is_raw) = @_;
 
     return if $args->{from_level} && $hl->level < $args->{from_level};
     return if $args->{to_level}   && $hl->level > $args->{to_level};
@@ -136,7 +136,9 @@ sub _process_hl {
         $r->{level}      = $hl->level;
         $date = $r->{due_date};
     } else {
-        if ($ats) {
+        if ($is_raw) {
+            chomp($r = $hl->header_as_string);
+        } elsif ($ats) {
             my $pl = abs($days) > 1 ? "s" : "";
             $r = sprintf("%s (%s): %s (%s)",
                          $days == 0 ? "today" :
@@ -147,7 +149,7 @@ sub _process_hl {
                          $ats->datetime->ymd);
             $date = $ats->datetime;
         } else {
-            $r = $hl->title->as_string;
+            chomp($r = $hl->title->as_string);
         }
     }
     push @$res, [$r, $date, $hl];
@@ -206,6 +208,7 @@ _
         detail => {
             schema => [bool => default => 0],
             summary => 'Show details instead of just titles',
+            cmdline_aliases => {l=>{}},
             tags => ['format'],
         },
         has_tags => {
@@ -337,6 +340,7 @@ sub list_org_headlines {
     my $sort  = $args{sort};
     my $tz    = $args{time_zone} // $ENV{TZ} // "UTC";
     my $files = $args{files};
+    $args{_raw} //= 1;
 
     $today = $args{today} // DateTime->today(time_zone => $tz);
 
@@ -352,7 +356,7 @@ sub list_org_headlines {
             sub {
                 my ($el) = @_;
                 return unless $el->isa('Org::Element::Headline');
-                _process_hl($file, $el, \%args, \@res)
+                _process_hl($file, $el, \%args, \@res, $args{_raw})
             });
     }
 

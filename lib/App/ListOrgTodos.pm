@@ -37,7 +37,7 @@ gen_modified_sub(
 
         $args{done} //= 0;
 
-        App::ListOrgHeadlines::list_org_headlines(%args, todo=>1);
+        App::ListOrgHeadlines::list_org_headlines(%args, todo=>1, _raw=>0);
     },
 );
 
