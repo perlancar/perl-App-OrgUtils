@@ -3,7 +3,6 @@ package App::ListOrgAnniversaries;
 use 5.010;
 use strict;
 use warnings;
-use experimental 'smartmatch';
 use Log::ger;
 
 use App::OrgUtils;
@@ -35,13 +34,13 @@ sub _process_hl {
     if ($args->{has_tags} || $args->{lacks_tags}) {
         my $tags = [$hl->get_tags];
         if ($args->{has_tags}) {
-            for (@{ $args->{has_tags} }) {
-                return unless $_ ~~ @$tags;
+            for my $tag (@{ $args->{has_tags} }) {
+                return unless grep { $_ eq $tag } @$tags;
             }
         }
         if ($args->{lacks_tags}) {
-            for (@{ $args->{lacks_tags} }) {
-                return if $_ ~~ @$tags;
+            for my $tag (@{ $args->{lacks_tags} }) {
+                return if grep { $_ eq $tag } @$tags;
             }
         }
     }

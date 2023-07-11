@@ -21,7 +21,7 @@ my $doc = Org::Parser->new->parse($input);
 
 my %stats = (
     num_objects => 0,
-    input_size_in_lines      => ~~@$input,
+    input_size_in_lines      => scalar(@$input),
     input_size_in_characters => sum(map {length} @$input),
     tree_depth => 0,
 );

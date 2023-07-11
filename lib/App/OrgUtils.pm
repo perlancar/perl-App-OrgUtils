@@ -74,8 +74,8 @@ our $_complete_state = sub {
     # get todo states
     my @states;
     for my $doc (values %docs) {
-        for (@{ $doc->todo_states }, @{ $doc->done_states }) {
-            push @states, $_ unless $_ ~~ @states;
+        for my $state (@{ $doc->todo_states }, @{ $doc->done_states }) {
+            push @states, $state unless grep { $_ eq $state } @states;
         }
     }
     Complete::Util::complete_array_elem(array=>\@states, word=>$args{word});
@@ -106,8 +106,8 @@ our $_complete_priority = sub {
     # get priorities
     my @prios;
     for my $doc (values %docs) {
-        for (@{ $doc->priorities }) {
-            push @prios, $_ unless $_ ~~ @prios;
+        for my $prio (@{ $doc->priorities }) {
+            push @prios, $prio unless grep { $_ eq $prio } @prios;
         }
     }
     Complete::Util::complete_array_elem(array=>\@prios, word=>$args{word});
@@ -142,8 +142,8 @@ our $_complete_tags = sub {
             sub {
                 my $el = shift;
                 return unless $el->isa('Org::Element::Headline');
-                for ($el->get_tags) {
-                    push @tags, $_ unless $_ ~~ @tags;
+                for my $tag ($el->get_tags) {
+                    push @tags, $tag unless { $_ eq $tag } @tags;
                 }
             }
         );

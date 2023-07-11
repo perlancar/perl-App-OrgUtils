@@ -67,7 +67,7 @@ sub count_org_headlines {
     my %args = @_;
 
     my $res = list_org_headlines(%args);
-    ~~@$res;
+    scalar @$res;
 }
 
 $SPEC{count_org_todos} = do {

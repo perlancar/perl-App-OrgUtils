@@ -15,7 +15,7 @@ my $org = Org::Parser->new;
 my $doc;
 {
     local $/;
-    $doc = $org->parse(~~<>);
+    $doc = $org->parse(scalar <>);
 }
 
 my $n = 0;
