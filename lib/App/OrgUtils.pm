@@ -143,7 +143,7 @@ our $_complete_tags = sub {
                 my $el = shift;
                 return unless $el->isa('Org::Element::Headline');
                 for my $tag ($el->get_tags) {
-                    push @tags, $tag unless { $_ eq $tag } @tags;
+                    push @tags, $tag unless grep { $_ eq $tag } @tags;
                 }
             }
         );
