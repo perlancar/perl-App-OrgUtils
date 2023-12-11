@@ -207,7 +207,7 @@ _
         field_pattern => {
             summary => 'Regex for fields that specify anniversaries',
             schema  => 're*',
-            default => qr/(?:birthday|anniversary)/i,
+            default => qr/(?:birthday|dob|date of birth|anniversary)/i,
         },
         reminded_field_pattern => {
             schema => 're*',
