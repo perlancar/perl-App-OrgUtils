@@ -172,7 +172,7 @@ $SPEC{list_org_headlines} = {
         due_in => {
             schema => ['int'],
             summary => 'Only show todo items that are (nearing|passed) due',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 If value is not set, then will use todo item's warning period (or, if todo item
 does not have due date or warning period in its due date, will use the default
@@ -185,7 +185,7 @@ if today is 2011-06-30 and due_in is set to 7, then todo item with due date
 than 7) but <2011-07-10 Sun +1y -14d> will (warning period 14 days is already
 passed by that time).
 
-_
+MARKDOWN
             tags => ['filter'],
         },
         from_level => {
@@ -229,7 +229,7 @@ _
         group_by_tags => {
             schema => [bool => default => 0],
             summary => 'Whether to group result by tags',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 If set to true, instead of returning a list, this function will return a hash of
 lists, keyed by tag: {tag1: [hl1, hl2, ...], tag2: [...]}. Note that a headline
@@ -237,20 +237,20 @@ that has several tags will only be listed under its first tag, unless when
 `allow_duplicates` is set to true, in which case the headline will be listed
 under each of its tag.
 
-_
+MARKDOWN
             tags => ['format'],
         },
         allow_duplicates => {
             schema => ['bool'],
             summary => 'Whether to allow headline to be listed more than once',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 This is only relevant when `group_by_tags` is on. Normally when a headline has
 several tags, it will only be listed under its first tag. But when this option
 is turned on, the headline will be listed under each of its tag (which mean a
 single headline will be listed several times).
 
-_
+MARKDOWN
             tags => ['format'],
         },
         priority => {
@@ -263,12 +263,12 @@ _
             schema => ['str'],
             summary => 'Only show todo items that have at least this priority',
             tags => ['filter'],
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Note that the default priority list is [A, B, C] (A being the highest) and it
 can be customized using the `#+PRIORITIES` setting.
 
-_
+MARKDOWN
             links => ['maximum_priority'],
             completion => $App::OrgUtils::_complete_priority,
         },
@@ -276,12 +276,12 @@ _
             schema => ['str'],
             summary => 'Only show todo items that have at most this priority',
             tags => ['filter'],
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Note that the default priority list is [A, B, C] (A being the highest) and it
 can be customized using the `#+PRIORITIES` setting.
 
-_
+MARKDOWN
             links => ['minimum_priority'],
             completion => $App::OrgUtils::_complete_priority,
         },
@@ -289,7 +289,7 @@ _
             schema => ['bool'],
             summary => 'Also show items with no/unknown priority',
             tags => ['filter'],
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Relevant only when used with `minimum_priority` and/or `maximum_priority`.
 
@@ -297,18 +297,18 @@ If this option is turned on, todo items that does not have any priority or have
 unknown priorities will *still* be included. Otherwise they will not be
 included.
 
-_
+MARKDOWN
             links => ['minimum_priority', 'maximum_priority'],
         },
         today => {
             schema => [obj => isa=>'DateTime'],
             summary => 'Assume today\'s date',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 You can provide Unix timestamp or DateTime object. If you provide a DateTime
 object, remember to set the correct time zone.
 
-_
+MARKDOWN
         },
         sort => {
             schema => [any => {
@@ -319,7 +319,7 @@ _
                 default => 'due_date',
             }],
             summary => 'Specify sorting',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 If string, must be one of 'due_date', '-due_date' (descending).
 
@@ -328,7 +328,7 @@ where REC is the final record that will be returned as final result (can be a
 string or a hash, if 'detail' is enabled), DUE_DATE is the DateTime object (if
 any), and HL is the Org::Headline object.
 
-_
+MARKDOWN
             tags => ['format'],
         },
     },

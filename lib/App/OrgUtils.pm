@@ -1,4 +1,4 @@
-package App::OrgUtils;
+[package App::OrgUtils;
 
 use 5.010;
 use strict;
@@ -27,22 +27,22 @@ our %common_args1 = (
     time_zone => {
         schema => ['date::tz_name'],
         summary => 'Will be passed to parser\'s options',
-        description => <<'_',
+        description => <<'MARKDOWN',
 
 If not set, TZ environment variable will be picked as default.
 
-_
+MARKDOWN
     },
 );
 
 our %arg0_file = (
     file => {
         summary => 'Path to an Org file',
-        description => <<'_',
+        description => <<'MARKDOWN',
 
 "-" means standard input.
 
-_
+MARKDOWN
         schema => 'filename*',
         default => '-',
         pos => 0,

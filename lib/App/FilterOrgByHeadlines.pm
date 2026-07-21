@@ -29,20 +29,20 @@ sub _match {
 $SPEC{filter_org_by_headlines} = {
     v => 1.1,
     summary => 'Filter Org by headlines',
-    description => <<'_',
+    description => <<'MARKDOWN',
 
 This routine uses simple regex instead of Org::Parser, for faster performance.
 
-_
+MARKDOWN
     args => {
         input => {
             #schema => ['any*', of => ['str*', ['array*', of => 'str*']]],
             schema => ['str*'],
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Value is either a string or an array of strings.
 
-_
+MARKDOWN
             req => 1,
             pos => 0,
             cmdline_src => 'stdin_or_files',
@@ -62,34 +62,34 @@ _
         match => {
             schema => ['any*', of=>['str*', 're*']],
             summary => 'Only include headline which matches this',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Value is either a string or a regex. If string is in the form of `/.../` or
 `/.../i` it is assumed to be a regex.
 
-_
+MARKDOWN
             tags => ['category:filtering'],
         },
         parent_match => {
             schema => ['any*', of=>['str*', 're*']],
             summary => 'Only include headline whose parent matches this',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Value is either a string or a regex. If string is in the form of `/.../` or
 `/.../i` it is assumed to be a regex.
 
-_
+MARKDOWN
             tags => ['category:filtering'],
         },
         ascendant_match => {
             schema => ['any*', of=>['str*', 're*']],
             summary => 'Only include headline whose ascendant matches this',
-            description => <<'_',
+            description => <<'MARKDOWN',
 
 Value is either a string or a regex. If string is in the form of `/.../` or
 `/.../i` it is assumed to be a regex.
 
-_
+MARKDOWN
             tags => ['category:filtering'],
         },
         is_todo => {
