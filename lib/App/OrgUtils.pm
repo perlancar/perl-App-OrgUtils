@@ -1,4 +1,4 @@
-[package App::OrgUtils;
+package App::OrgUtils;
 
 use 5.010;
 use strict;
