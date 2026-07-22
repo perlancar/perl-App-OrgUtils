@@ -159,7 +159,10 @@ sub _load_org_files {
     my ($files, $opts0) = @_;
     $files or die "Please specify files";
 
-    my $orgp = Org::Parser->new;
+    my $orgp = Org::Parser->new(
+        ignore_unknown_settings => 1,
+        ignore_unknown_drawers => 1,
+    );
     my %docs;
     for my $file (@$files) {
         my $opts = { %{$opts0 // {}} };
